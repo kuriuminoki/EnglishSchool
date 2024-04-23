@@ -13,30 +13,108 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ソース ファイル\tools">
+      <UniqueIdentifier>{80d90d74-9f80-4301-a760-81bc03f4eff7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\tools">
+      <UniqueIdentifier>{cde5317b-c1ab-493b-b036-caf84aacecb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\api">
+      <UniqueIdentifier>{6ff6975d-2ede-4c59-9609-a9733ea75fe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\api">
+      <UniqueIdentifier>{2dc168d8-2b7b-4809-8643-7625c0ba5dcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Domain">
+      <UniqueIdentifier>{788b133d-5bc2-4549-aa46-d8011e910aa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\ui">
+      <UniqueIdentifier>{ecd8c1de-947d-46e6-afd2-e51b6fd2c6db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Button.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Control.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Define.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>ソース ファイル\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Control.cpp">
+      <Filter>ソース ファイル\tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Button.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Control.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Define.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>ヘッダー ファイル\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Control.h">
+      <Filter>ヘッダー ファイル\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>ヘッダー ファイル\api</Filter>
+    </ClInclude>
+    <ClInclude Include="Study.h">
+      <Filter>ヘッダー ファイル\api</Filter>
+    </ClInclude>
+    <ClInclude Include="Lesson.h">
+      <Filter>ヘッダー ファイル\api</Filter>
+    </ClInclude>
+    <ClInclude Include="Setting.h">
+      <Filter>ヘッダー ファイル\api</Filter>
+    </ClInclude>
+    <ClInclude Include="VocabularyLesson.h">
+      <Filter>ヘッダー ファイル\api</Filter>
+    </ClInclude>
+    <ClInclude Include="DiaryLesson.h">
+      <Filter>ヘッダー ファイル\api</Filter>
+    </ClInclude>
+    <ClInclude Include="TextEvent.h">
+      <Filter>ヘッダー ファイル\api</Filter>
+    </ClInclude>
+    <ClInclude Include="OtherLesson.h">
+      <Filter>ヘッダー ファイル\api</Filter>
+    </ClInclude>
+    <ClInclude Include="Teacher.h">
+      <Filter>ヘッダー ファイル\Domain</Filter>
+    </ClInclude>
+    <ClInclude Include="Vocabulary.h">
+      <Filter>ヘッダー ファイル\Domain</Filter>
+    </ClInclude>
+    <ClInclude Include="Diary.h">
+      <Filter>ヘッダー ファイル\Domain</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDrawer.h">
+      <Filter>ヘッダー ファイル\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="StudyDrawer.h">
+      <Filter>ヘッダー ファイル\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="LessonDrawer.h">
+      <Filter>ヘッダー ファイル\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingDrawer.h">
+      <Filter>ヘッダー ファイル\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="VocabularyLessonDrawer.h">
+      <Filter>ヘッダー ファイル\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="DiaryLessonDrawer.h">
+      <Filter>ヘッダー ファイル\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="TextEventDrawer.h">
+      <Filter>ヘッダー ファイル\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="OtherLessonDrawer.h">
+      <Filter>ヘッダー ファイル\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="TeacherDrawer.h">
+      <Filter>ヘッダー ファイル\ui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

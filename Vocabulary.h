@@ -1,0 +1,6 @@
+#ifndef VOCABULARY_H_INCLUDED
+#define VOCABULARY_H_INCLUDED
+
+
+
+#endif

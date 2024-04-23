@@ -1,0 +1,6 @@
+#ifndef DIARY_LESSON_H_INCLUDED
+#define DIARY_LESSON_H_INCLUDED
+
+
+
+#endif

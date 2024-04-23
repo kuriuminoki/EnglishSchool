@@ -148,6 +148,26 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Control.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="Diary.h" />
+    <ClInclude Include="DiaryLesson.h" />
+    <ClInclude Include="DiaryLessonDrawer.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameDrawer.h" />
+    <ClInclude Include="Lesson.h" />
+    <ClInclude Include="LessonDrawer.h" />
+    <ClInclude Include="OtherLesson.h" />
+    <ClInclude Include="OtherLessonDrawer.h" />
+    <ClInclude Include="Setting.h" />
+    <ClInclude Include="SettingDrawer.h" />
+    <ClInclude Include="Study.h" />
+    <ClInclude Include="StudyDrawer.h" />
+    <ClInclude Include="Teacher.h" />
+    <ClInclude Include="TeacherDrawer.h" />
+    <ClInclude Include="TextEvent.h" />
+    <ClInclude Include="TextEventDrawer.h" />
+    <ClInclude Include="Vocabulary.h" />
+    <ClInclude Include="VocabularyLesson.h" />
+    <ClInclude Include="VocabularyLessonDrawer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
