@@ -2,6 +2,7 @@
 #define GAME_H_INCLUDED
 
 
+class Button;
 class Lesson;
 class Study;
 class SelectMode;
@@ -19,6 +20,8 @@ enum GAME_MODE {
 class Game {
 private:
 
+	int m_handX, m_handY;
+
 	// 今プレイ中のモード
 	GAME_MODE m_state;
 
@@ -28,6 +31,11 @@ private:
 	Study* m_study;
 	Setting* m_setting;
 
+	int m_font;
+
+	// モード選択画面へ戻るボタン
+	Button* m_backButton;
+
 public:
 
 	Game();
@@ -35,6 +43,8 @@ public:
 	~Game();
 
 	// ゲッタ
+	inline const int getHandX() const { return m_handX; }
+	inline const int getHandY() const { return m_handY; }
 	inline const GAME_MODE getState() const { return m_state; }
 	inline const SelectMode* getSelectMode() const { return m_selectMode; }
 	inline const Lesson* getLesson() const { return m_lesson; }
@@ -42,6 +52,8 @@ public:
 	inline const Setting* getSetting() const { return m_setting; }
 
 	void play();
+
+	void draw() const;
 
 };
 
@@ -52,10 +64,16 @@ public:
 class SelectMode {
 private:
 
+	int m_font;
+	Button* m_lessonButton;
+	Button* m_studyButton;
+	Button* m_settingButton;
+
 public:
-	SelectMode();
+	SelectMode(int font);
 	~SelectMode();
-	GAME_MODE play();
+	GAME_MODE play(int handX, int handY);
+	void draw(int handX, int handY) const;
 };
 
 #endif

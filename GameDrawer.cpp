@@ -14,6 +14,26 @@ GameDrawer::~GameDrawer() {
 }
 
 void GameDrawer::draw() {
+
+	m_game_p->draw();
+
+	int handX = m_game_p->getHandX();
+	int handY = m_game_p->getHandY();
+
 	GAME_MODE state = m_game_p->getState();
-	DrawFormatString(100, 100, WHITE, "GameDrawer: state=%d", state);
+	switch (state) {
+	case SELECT_MODE:
+		m_game_p->getSelectMode()->draw(handX, handY);
+		break;
+	case LESSON_MODE:
+
+		break;
+	case STUDY_MODE:
+
+		break;
+	case SETTING_MODE:
+
+		break;
+	}
+
 }

@@ -46,7 +46,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	ChangeWindowMode(WINDOW), DxLib_Init(), SetDrawScreen(DX_SCREEN_BACK);
 	
-	//SetAlwaysRunFlag(TRUE);//画面を常にアクティブ
+	SetAlwaysRunFlag(TRUE);//画面を常にアクティブ
 
 	// ウィンドウの名前
 	SetMainWindowText("複製のHeart");
