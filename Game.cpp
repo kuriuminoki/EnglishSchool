@@ -1,4 +1,6 @@
+#include "Button.h"
 #include "Control.h"
+#include "Define.h"
 #include "Game.h"
 #include "Lesson.h"
 #include "Setting.h"
@@ -6,14 +8,19 @@
 
 
 Game::Game() {
+	m_handX = 0;
+	m_handY = 0;
 	m_state = GAME_MODE::SELECT_MODE;
-	m_selectMode = new SelectMode();
+	m_font = CreateFontToHandle(NULL, 40, 3);
+	m_selectMode = new SelectMode(m_font);
 	m_lesson = new Lesson();
 	m_study = new Study();
 	m_setting = new Setting();
+	m_backButton = new Button("戻る", 50, 50, 200, 100, GRAY, WHITE, m_font, BLACK);
 }
 
 Game::~Game() {
+	DeleteFontToHandle(m_font);
 	delete m_selectMode;
 	delete m_lesson;
 	delete m_study;
@@ -21,9 +28,12 @@ Game::~Game() {
 }
 
 void Game::play() {
+
+	GetMousePoint(&m_handX, &m_handY);
+
 	switch (m_state) {
 	case SELECT_MODE:
-		m_state = m_selectMode->play();
+		m_state = m_selectMode->play(m_handX, m_handY);
 		break;
 	case LESSON_MODE:
 		if (m_lesson->play()) {
@@ -41,25 +51,57 @@ void Game::play() {
 		}
 		break;
 	}
+
+	if (leftClick() == 1) {
+		if (m_state != GAME_MODE::SELECT_MODE && m_backButton->overlap(m_handX, m_handY)) {
+			m_state = GAME_MODE::SELECT_MODE;
+		}
+	}
+}
+
+void Game::draw() const {
+	if (m_state != GAME_MODE::SELECT_MODE) {
+		m_backButton->draw(m_handX, m_handY);
+	}
 }
 
 
 /*
 * モード選択画面
 */
-SelectMode::SelectMode() {
-
+SelectMode::SelectMode(int font) {
+	m_font = font;
+	m_lessonButton = new Button("授業", 50, 200, 300, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
+	m_studyButton = new Button("自習", 400, 200, 300, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
+	m_settingButton = new Button("設定", 750, 200, 300, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
 }
 
 SelectMode::~SelectMode() {
-
+	delete m_lessonButton;
+	delete m_studyButton;
+	delete m_settingButton;
 }
 
-GAME_MODE SelectMode::play() {
+GAME_MODE SelectMode::play(int handX, int handY) {
 
+	// ボタンを押下してモード決定
 	if (leftClick() == 1) {
-		return GAME_MODE::LESSON_MODE;
+		if (m_lessonButton->overlap(handX, handY)) {
+			return GAME_MODE::LESSON_MODE;
+		}
+		if (m_studyButton->overlap(handX, handY)) {
+			return GAME_MODE::STUDY_MODE;
+		}
+		if (m_settingButton->overlap(handX, handY)) {
+			return GAME_MODE::SETTING_MODE;
+		}
 	}
 
 	return GAME_MODE::SELECT_MODE;
+}
+
+void SelectMode::draw(int handX, int handY) const {
+	m_lessonButton->draw(handX, handY);
+	m_studyButton->draw(handX, handY);
+	m_settingButton->draw(handX, handY);
 }
