@@ -31,6 +31,9 @@
     <Filter Include="ヘッダー ファイル\ui">
       <UniqueIdentifier>{ecd8c1de-947d-46e6-afd2-e51b6fd2c6db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\ui">
+      <UniqueIdentifier>{e49b8fe9-22c1-4623-ade0-02cde5eefde7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Define.cpp">
@@ -44,6 +47,21 @@
     </ClCompile>
     <ClCompile Include="Control.cpp">
       <Filter>ソース ファイル\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>ソース ファイル\api</Filter>
+    </ClCompile>
+    <ClCompile Include="Lesson.cpp">
+      <Filter>ソース ファイル\api</Filter>
+    </ClCompile>
+    <ClCompile Include="Setting.cpp">
+      <Filter>ソース ファイル\api</Filter>
+    </ClCompile>
+    <ClCompile Include="Study.cpp">
+      <Filter>ソース ファイル\api</Filter>
+    </ClCompile>
+    <ClCompile Include="GameDrawer.cpp">
+      <Filter>ソース ファイル\ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

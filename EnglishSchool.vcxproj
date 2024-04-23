@@ -142,7 +142,12 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Control.cpp" />
     <ClCompile Include="Define.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameDrawer.cpp" />
+    <ClCompile Include="Lesson.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Setting.cpp" />
+    <ClCompile Include="Study.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />

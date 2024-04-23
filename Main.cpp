@@ -1,5 +1,7 @@
 #include "Control.h"
 #include "Define.h"
+#include "Game.h"
+#include "GameDrawer.h"
 
 
 ///////fpsの調整///////////////
@@ -58,13 +60,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//SetDrawMode(DX_DRAWMODE_NEAREST);
 	SetFullScreenScalingMode(DX_DRAWMODE_NEAREST);
 
+	Game* game = new Game();
+	GameDrawer drawer(game);
+
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0)
 	{
 		updateKey();
 		mouseClick();
 
 		/////メイン////
-		
+		game->play();
+		drawer.draw();
 		///////////////
 
 		//FPS操作
@@ -78,10 +84,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			Draw(0, 0, BLACK);
 		}
 		Wait();
-		if (controlEsc() == TRUE) { DxLib_End(); }
+		if (controlEsc() == TRUE) { 
+			delete game;
+			DxLib_End();
+		}
 		//FPS操作ここまで
 	}
-
+	
+	delete game;
 	DxLib_End(); // DXライブラリ終了処理
 	return 0;
 }
