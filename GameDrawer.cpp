@@ -1,16 +1,18 @@
 #include "Define.h"
 #include "Game.h"
 #include "GameDrawer.h"
+#include "StudyDrawer.h"
 
 #include "DxLib.h"
 
 
 GameDrawer::GameDrawer(const Game* game) {
 	m_game_p = game;
+	m_studyDrawer = new StudyDrawer(m_game_p->getStudy());
 }
 
 GameDrawer::~GameDrawer() {
-	
+	delete m_studyDrawer;
 }
 
 void GameDrawer::draw() {
@@ -29,7 +31,7 @@ void GameDrawer::draw() {
 
 		break;
 	case STUDY_MODE:
-
+		m_studyDrawer->draw(handX, handY);
 		break;
 	case SETTING_MODE:
 

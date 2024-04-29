@@ -25,14 +25,17 @@
     <Filter Include="ヘッダー ファイル\api">
       <UniqueIdentifier>{2dc168d8-2b7b-4809-8643-7625c0ba5dcd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Domain">
-      <UniqueIdentifier>{788b133d-5bc2-4549-aa46-d8011e910aa6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\ui">
       <UniqueIdentifier>{ecd8c1de-947d-46e6-afd2-e51b6fd2c6db}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\ui">
       <UniqueIdentifier>{e49b8fe9-22c1-4623-ade0-02cde5eefde7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\domain">
+      <UniqueIdentifier>{e829d045-a415-4fdc-b774-e4f4af322322}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\domain">
+      <UniqueIdentifier>{788b133d-5bc2-4549-aa46-d8011e910aa6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +65,12 @@
     </ClCompile>
     <ClCompile Include="GameDrawer.cpp">
       <Filter>ソース ファイル\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="StudyDrawer.cpp">
+      <Filter>ソース ファイル\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="Vocabulary.cpp">
+      <Filter>ソース ファイル\domain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -99,13 +108,13 @@
       <Filter>ヘッダー ファイル\api</Filter>
     </ClInclude>
     <ClInclude Include="Teacher.h">
-      <Filter>ヘッダー ファイル\Domain</Filter>
+      <Filter>ヘッダー ファイル\domain</Filter>
     </ClInclude>
     <ClInclude Include="Vocabulary.h">
-      <Filter>ヘッダー ファイル\Domain</Filter>
+      <Filter>ヘッダー ファイル\domain</Filter>
     </ClInclude>
     <ClInclude Include="Diary.h">
-      <Filter>ヘッダー ファイル\Domain</Filter>
+      <Filter>ヘッダー ファイル\domain</Filter>
     </ClInclude>
     <ClInclude Include="GameDrawer.h">
       <Filter>ヘッダー ファイル\ui</Filter>
