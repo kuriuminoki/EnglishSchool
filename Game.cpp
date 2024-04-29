@@ -14,9 +14,9 @@ Game::Game() {
 	m_font = CreateFontToHandle(NULL, 40, 3);
 	m_selectMode = new SelectMode(m_font);
 	m_lesson = new Lesson();
-	m_study = new Study();
+	m_study = new Study(m_font);
 	m_setting = new Setting();
-	m_backButton = new Button("戻る", 50, 50, 200, 100, GRAY, WHITE, m_font, BLACK);
+	m_backButton = new Button("タイトルへ戻る", 50, 50, 300, 100, GRAY, WHITE, m_font, BLACK);
 }
 
 Game::~Game() {
@@ -41,7 +41,7 @@ void Game::play() {
 		}
 		break;
 	case STUDY_MODE:
-		if (m_study->play()) {
+		if (m_study->play(m_handX, m_handY)) {
 			m_state = SELECT_MODE;
 		}
 		break;
@@ -52,6 +52,7 @@ void Game::play() {
 		break;
 	}
 
+	// タイトルへ戻る
 	if (leftClick() == 1) {
 		if (m_state != GAME_MODE::SELECT_MODE && m_backButton->overlap(m_handX, m_handY)) {
 			m_state = GAME_MODE::SELECT_MODE;

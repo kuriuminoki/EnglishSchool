@@ -63,6 +63,9 @@
     <ClCompile Include="GameDrawer.cpp">
       <Filter>ソース ファイル\ui</Filter>
     </ClCompile>
+    <ClCompile Include="StudyDrawer.cpp">
+      <Filter>ソース ファイル\ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h">
