@@ -3,6 +3,7 @@
 
 
 class Button;
+class Vocabulary;
 class WordTestStudy;
 class WordAddStudy;
 
@@ -44,12 +45,22 @@ public:
 class WordTestStudy {
 private:
 
+	Vocabulary* m_vocabulary;
+
+	int m_font;
+
+	Button* m_answerButton;
+	Button* m_importantButton;
+	Button* m_nextButton;
+	Button* m_removeButton;
+
 public:
 	WordTestStudy();
 	~WordTestStudy();
 
-	bool play();
-	void draw();
+	bool play(int handX, int handY);
+	void init();
+	void draw(int handX, int handY) const;
 };
 
 
@@ -58,6 +69,8 @@ public:
 */
 class WordAddStudy {
 private:
+
+	Vocabulary* m_vocabulary;
 
 public:
 	WordAddStudy();

@@ -149,6 +149,7 @@
     <ClCompile Include="Setting.cpp" />
     <ClCompile Include="Study.cpp" />
     <ClCompile Include="StudyDrawer.cpp" />
+    <ClCompile Include="Vocabulary.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
