@@ -7,6 +7,7 @@ class Lesson;
 class Study;
 class SelectMode;
 class Setting;
+class Teacher;
 
 
 enum GAME_MODE {
@@ -36,6 +37,9 @@ private:
 	// モード選択画面へ戻るボタン
 	Button* m_backButton;
 
+	// 教師
+	Teacher* m_teacher;
+
 public:
 
 	Game();
@@ -50,6 +54,7 @@ public:
 	inline const Lesson* getLesson() const { return m_lesson; }
 	inline const Study* getStudy() const { return m_study; }
 	inline const Setting* getSetting() const { return m_setting; }
+	inline const Teacher* getTeacher() const { return m_teacher; }
 
 	void play();
 

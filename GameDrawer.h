@@ -4,6 +4,7 @@
 
 class Game;
 class StudyDrawer;
+class TeacherDrawer;
 
 
 class GameDrawer {
@@ -11,7 +12,14 @@ private:
 
 	const Game* m_game_p;
 
+	TeacherDrawer* m_teacherDrawer;
+
 	StudyDrawer* m_studyDrawer;
+
+	// •”Â‰æ‘œ
+	int m_kokuban;
+
+	bool m_dispTeacher;
 
 public:
 

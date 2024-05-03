@@ -38,5 +38,6 @@ const int RED = GetColor(255, 0, 0);
 const int LIGHT_RED = GetColor(255, 100, 100);
 const int BLUE = GetColor(0, 0, 255);
 const int LIGHT_BLUE = GetColor(100, 100, 255);
+const int HAIKEI_BROWN = GetColor(255, 225, 205);
 
 #endif
