@@ -72,6 +72,12 @@
     <ClCompile Include="Vocabulary.cpp">
       <Filter>ソース ファイル\domain</Filter>
     </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>ソース ファイル\api</Filter>
+    </ClCompile>
+    <ClCompile Include="TextDrawer.cpp">
+      <Filter>ソース ファイル\ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h">
@@ -134,14 +140,17 @@
     <ClInclude Include="DiaryLessonDrawer.h">
       <Filter>ヘッダー ファイル\ui</Filter>
     </ClInclude>
-    <ClInclude Include="TextEventDrawer.h">
-      <Filter>ヘッダー ファイル\ui</Filter>
-    </ClInclude>
     <ClInclude Include="OtherLessonDrawer.h">
       <Filter>ヘッダー ファイル\ui</Filter>
     </ClInclude>
     <ClInclude Include="TeacherDrawer.h">
       <Filter>ヘッダー ファイル\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="TextDrawer.h">
+      <Filter>ヘッダー ファイル\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>ヘッダー ファイル\api</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

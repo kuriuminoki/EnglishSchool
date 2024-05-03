@@ -6,6 +6,7 @@ class Button;
 class Vocabulary;
 class WordTestStudy;
 class WordAddStudy;
+class Teacher;
 
 
 class Study {
@@ -28,8 +29,10 @@ private:
 
 	int m_font;
 
+	Teacher* m_teacher_p;
+
 public:
-	Study(int font);
+	Study(int font, Teacher* teacher_p);
 	~Study();
 
 	// I—¹‚Étrue‚ğ•Ô‚·
@@ -54,8 +57,10 @@ private:
 	Button* m_nextButton;
 	Button* m_removeButton;
 
+	Teacher* m_teacher_p;
+
 public:
-	WordTestStudy();
+	WordTestStudy(Teacher* teacher_p);
 	~WordTestStudy();
 
 	bool play(int handX, int handY);

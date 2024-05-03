@@ -149,6 +149,8 @@
     <ClCompile Include="Setting.cpp" />
     <ClCompile Include="Study.cpp" />
     <ClCompile Include="StudyDrawer.cpp" />
+    <ClCompile Include="Teacher.cpp" />
+    <ClCompile Include="TeacherDrawer.cpp" />
     <ClCompile Include="Vocabulary.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,7 +173,6 @@
     <ClInclude Include="Teacher.h" />
     <ClInclude Include="TeacherDrawer.h" />
     <ClInclude Include="TextEvent.h" />
-    <ClInclude Include="TextEventDrawer.h" />
     <ClInclude Include="Vocabulary.h" />
     <ClInclude Include="VocabularyLesson.h" />
     <ClInclude Include="VocabularyLessonDrawer.h" />
