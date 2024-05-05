@@ -2,6 +2,7 @@
 #include "DxLib.h"
 
 #include <algorithm>
+#include <fstream>
 
 using namespace std;
 
@@ -70,6 +71,15 @@ bool Vocabulary::read() {
 
 // セーブ
 bool Vocabulary::write() const {
+	// ファイルポインタ
+	ofstream outputFile(m_path);
+	outputFile << "important,english,japanese,example" << endl;
+	for (unsigned int i = 0; i < m_words.size(); i++) {
+		outputFile << (int)m_words[i].importantFlag << ",";
+		outputFile << m_words[i].english << ",";
+		outputFile << m_words[i].japanese << ",";
+		outputFile << m_words[i].example << endl;
+	}
 	return true;
 }
 
