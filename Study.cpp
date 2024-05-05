@@ -99,6 +99,7 @@ WordTestStudy::WordTestStudy(Teacher* teacher_p) {
 }
 
 WordTestStudy::~WordTestStudy() {
+	m_vocabulary->write();
 	delete m_vocabulary;
 	DeleteFontToHandle(m_font);
 }
@@ -127,6 +128,8 @@ bool WordTestStudy::play(int handX, int handY) {
 }
 
 void WordTestStudy::init() {
+	m_nextButton->changeFlag(false, BLUE);
+	m_vocabulary->write();
 	m_vocabulary->init();
 	m_vocabulary->shuffle();
 }
