@@ -3,6 +3,7 @@
 #include "Define.h"
 #include "Study.h"
 #include "Teacher.h"
+#include "Timer.h"
 #include "Vocabulary.h"
 #include "DxLib.h"
 
@@ -93,15 +94,22 @@ WordTestStudy::WordTestStudy(Teacher* teacher_p) {
 	m_importantButton = new Button("要注意", 700, 750, 200, 100, LIGHT_RED, RED, m_font, BLACK);
 	m_removeButton = new Button("削除", 1150, 750, 150, 100, GRAY, WHITE, m_font, BLACK);
 	m_nextButton->changeFlag(false, BLUE);
+	m_stopWatch = new StopWatch();
 }
 
 WordTestStudy::~WordTestStudy() {
 	m_vocabulary->write();
 	delete m_vocabulary;
 	DeleteFontToHandle(m_font);
+	delete m_answerButton;
+	delete m_nextButton;
+	delete m_importantButton;
+	delete m_removeButton;
+	delete m_stopWatch;
 }
 
 bool WordTestStudy::play(int handX, int handY, bool onlyImportant) {
+	m_stopWatch->count();
 	if (leftClick() == 1) {
 		if (m_answerButton->overlap(handX, handY)) {
 			m_nextButton->changeFlag(true, LIGHT_BLUE);
@@ -132,9 +140,11 @@ void WordTestStudy::init(bool onlyImportant) {
 	if (onlyImportant) {
 		m_vocabulary->setFirstImportantWord();
 	}
+	m_stopWatch->init();
 }
 
 void WordTestStudy::draw(int handX, int handY) const {
+	DrawStringToHandle(600, 250, getTimeString(m_stopWatch->getCnt()).c_str(), WHITE, m_font);
 	Word word = m_vocabulary->getWord();
 	if (word.importantFlag) {
 		DrawStringToHandle(100, 300, "要注意！！", RED, m_font);
