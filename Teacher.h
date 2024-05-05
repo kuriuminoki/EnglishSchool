@@ -145,6 +145,12 @@ public:
 	// 発言開始
 	void setText(int num, int wait, EMOTE emote, bool animeRepeat);
 
+	// 雑談
+	void setRandomText();
+
+	// アドバイス
+	void setAdviceText();
+
 	void play();
 
 	void jump();

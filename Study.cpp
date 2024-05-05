@@ -140,7 +140,9 @@ void WordTestStudy::draw(int handX, int handY) const {
 	if (m_nextButton->getFlag()) {
 		DrawStringToHandle(100, 500, word.japanese.c_str(), LIGHT_BLUE, m_font);
 	}
-	DrawStringToHandle(120, 600, ("usage: " + word.example).c_str(), WHITE, m_font);
+	if (word.example != "") {
+		DrawStringToHandle(120, 600, ("usage: " + word.example).c_str(), WHITE, m_font);
+	}
 	m_answerButton->draw(handX, handY);
 	m_importantButton->draw(handX, handY);
 	m_nextButton->draw(handX, handY);
