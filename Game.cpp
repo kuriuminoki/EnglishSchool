@@ -10,6 +10,7 @@
 
 Game::Game() {
 	m_teacher = new Teacher("ƒgƒ‚ƒ`");
+	m_teacher->setRandomText();
 	m_handX = 0;
 	m_handY = 0;
 	m_state = GAME_MODE::SELECT_MODE;
@@ -61,6 +62,7 @@ void Game::play() {
 	if (leftClick() == 1) {
 		if (m_state != GAME_MODE::SELECT_MODE && m_backButton->overlap(m_handX, m_handY)) {
 			m_state = GAME_MODE::SELECT_MODE;
+			m_teacher->setRandomText();
 		}
 	}
 }

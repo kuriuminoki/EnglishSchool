@@ -233,6 +233,16 @@ void Teacher::setText(int num, int wait, EMOTE emote, bool animeRepeat) {
 	m_animeRepeat = animeRepeat;
 }
 
+void Teacher::setRandomText() {
+	int num = GetRand(4) + 1000;
+	setText(num, 120, EMOTE::NORMAL, true);
+}
+
+void Teacher::setAdviceText() {
+	int num = GetRand(4) + 2000;
+	setText(num, 120, EMOTE::NORMAL, true);
+}
+
 void Teacher::play() {
 	if (m_text != nullptr) {
 		if (m_text->play()) {
@@ -249,6 +259,9 @@ void Teacher::play() {
 				m_handleIndex = 0;
 			}
 		}
+	}
+	else if (GetRand(300) == 0) {
+		setAdviceText();
 	}
 	m_teacherAction->play();
 }

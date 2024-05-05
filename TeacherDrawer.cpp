@@ -18,20 +18,22 @@ TeacherDrawer::~TeacherDrawer() {
 }
 
 void TeacherDrawer::draw() {
+
+	// セリフ
+	const Text* text = m_teacher->getText();
+	if (text != nullptr) {
+		DrawBox(550, 20, 1600, 170, WHITE, TRUE);
+		DrawTriangle(1100, 170, 1200, 170, 1250, 250, WHITE, TRUE);
+		string str = text->getText();
+		drawText(600, 50, 50, str, BLACK, m_font);
+	}
 	
 	// 教師の画像
 	int handle = m_teacher->getHandle();
 	int dx = 0, dy = 0;
 	dx = m_teacher->getAction()->getDx();
 	dy = m_teacher->getAction()->getDy();
-	DrawRotaGraph(1600 + dx, 600 + dy, 0.7, 0, handle, TRUE);
-
-	// セリフ
-	const Text* text = m_teacher->getText();
-	if (text != nullptr) {
-		string str = text->getText();
-		drawText(600, 50, 500, str, BLACK, m_font);
-	}
+	DrawRotaGraph(1500 + dx, 600 + dy, 0.7, 0, handle, TRUE, TRUE);
 
 }
 
