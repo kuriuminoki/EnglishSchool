@@ -43,8 +43,9 @@ public:
 	// 単語テスト用
 	void shuffle();
 	Word getWord();
-	void goNextWord();
+	void goNextWord(bool onlyImportant);
 	void init();
+	void setFirstImportantWord();
 
 };
 

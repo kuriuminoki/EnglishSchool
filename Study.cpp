@@ -19,18 +19,16 @@ Study::Study(int font, Teacher* teacher_p) {
 	m_teacher_p = teacher_p;
 	m_state = STUDY_MODE::SELECT_MODE;
 	m_wordTestStudy = new WordTestStudy(m_teacher_p);
-	m_wordAddStudy = new WordAddStudy();
 	m_finishButton= new Button("終了", 1650, 50, 200, 100, GRAY, WHITE, m_font, BLACK);
-	m_wordTestButton = new Button("単語テスト", 100, 300, 200, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
-	m_wordAddButton = new Button("単語追加", 350, 300, 200, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
+	m_wordTestButton = new Button("全単語テスト", 100, 300, 400, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
+	m_onlyImportantTestButton = new Button("重要語のみテスト", 550, 300, 400, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
 }
 
 Study::~Study() {
 	delete m_wordTestStudy;
-	delete m_wordAddStudy;
 	delete m_finishButton;
 	delete m_wordTestButton;
-	delete m_wordAddButton;
+	delete m_onlyImportantTestButton;
 }
 
 bool Study::play(int handX, int handY) {
@@ -40,22 +38,23 @@ bool Study::play(int handX, int handY) {
 			if (m_wordTestButton->overlap(handX, handY)) {
 				m_state = STUDY_MODE::WORD_TEST;
 			}
-			else if (m_wordAddButton->overlap(handX, handY)) {
-				m_state = STUDY_MODE::WORD_ADD;
+			else if (m_onlyImportantTestButton->overlap(handX, handY)) {
+				m_state = STUDY_MODE::WORD_TEST_IMPORTANT;
+				m_wordTestStudy->init(true);
 			}
 		}
 	}
 	else {
 		if (leftClick() == 1 && m_finishButton->overlap(handX, handY)) {
 			m_state = STUDY_MODE::SELECT_MODE;
-			m_wordTestStudy->init();
+			m_wordTestStudy->init(false);
 		}
 		switch (m_state) {
 		case WORD_TEST:
-			m_wordTestStudy->play(handX, handY);
+			m_wordTestStudy->play(handX, handY, false);
 			break;
-		case WORD_ADD:
-			m_wordAddStudy->play();
+		case WORD_TEST_IMPORTANT:
+			m_wordTestStudy->play(handX, handY, true);
 			break;
 		}
 	}
@@ -67,16 +66,14 @@ bool Study::play(int handX, int handY) {
 void Study::draw(int handX, int handY) const {
 	if (m_state == STUDY_MODE::SELECT_MODE) {
 		m_wordTestButton->draw(handX, handY);
-		m_wordAddButton->draw(handX, handY);
+		m_onlyImportantTestButton->draw(handX, handY);
 	}
 	else {
 		m_finishButton->draw(handX, handY);
 		switch (m_state) {
 		case WORD_TEST:
+		case WORD_TEST_IMPORTANT:
 			m_wordTestStudy->draw(handX, handY);
-			break;
-		case WORD_ADD:
-			m_wordAddStudy->draw();
 			break;
 		}
 	}
@@ -104,14 +101,14 @@ WordTestStudy::~WordTestStudy() {
 	DeleteFontToHandle(m_font);
 }
 
-bool WordTestStudy::play(int handX, int handY) {
+bool WordTestStudy::play(int handX, int handY, bool onlyImportant) {
 	if (leftClick() == 1) {
 		if (m_answerButton->overlap(handX, handY)) {
 			m_nextButton->changeFlag(true, LIGHT_BLUE);
 			m_teacher_p->setText(2, 120, EMOTE::NORMAL, true);
 		}
 		if (m_nextButton->overlap(handX, handY)) {
-			m_vocabulary->goNextWord();
+			m_vocabulary->goNextWord(onlyImportant);
 			m_nextButton->changeFlag(false, BLUE);
 			m_teacher_p->setText(1, 120, EMOTE::NORMAL, true);
 		}
@@ -127,11 +124,14 @@ bool WordTestStudy::play(int handX, int handY) {
 	return false;
 }
 
-void WordTestStudy::init() {
+void WordTestStudy::init(bool onlyImportant) {
 	m_nextButton->changeFlag(false, BLUE);
 	m_vocabulary->write();
 	m_vocabulary->init();
 	m_vocabulary->shuffle();
+	if (onlyImportant) {
+		m_vocabulary->setFirstImportantWord();
+	}
 }
 
 void WordTestStudy::draw(int handX, int handY) const {
@@ -155,22 +155,3 @@ void WordTestStudy::draw(int handX, int handY) const {
 	DrawStringToHandle(100, 900, oss.str().c_str(), WHITE, m_font);
 }
 
-
-/*
-* 単語追加
-*/
-WordAddStudy::WordAddStudy() {
-	m_vocabulary = new Vocabulary("data/vocabulary/vocabulary.csv");
-}
-
-WordAddStudy::~WordAddStudy() {
-	delete m_vocabulary;
-}
-
-bool WordAddStudy::play() {
-	return false;
-}
-
-void WordAddStudy::draw() {
-
-}

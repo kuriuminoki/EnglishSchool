@@ -122,9 +122,13 @@ Word Vocabulary::getWord() {
 }
 
 // ŽŸ‚Ì’PŒê‚ÖˆÚ“®
-void Vocabulary::goNextWord() {
-	if (++m_index == (int)m_words.size()) {
-		m_index = 0;
+void Vocabulary::goNextWord(bool onlyImportant) {
+	unsigned int i = 0;
+	while (i == 0 || (onlyImportant && !m_words[m_index].importantFlag && i < m_words.size())) {
+		if (++m_index == (int)m_words.size()) {
+			m_index = 0;
+		}
+		i++;
 	}
 }
 
@@ -132,4 +136,10 @@ void Vocabulary::init() {
 	m_index = 0;
 	m_importantWordSum = 0;
 	read();
+}
+
+void Vocabulary::setFirstImportantWord() {
+	if (!m_words[m_index].importantFlag) {
+		goNextWord(true);
+	}
 }
