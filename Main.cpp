@@ -9,16 +9,14 @@ static int mStartTime;
 static int mCount;
 static int debug = FALSE;
 static float mFps;
-static const int N = 60;
-static const int FPS = 60;
 
 bool Update() {
 	if (mCount == 0) {
 		mStartTime = GetNowCount();
 	}
-	if (mCount == N) {
+	if (mCount == FPS) {
 		int t = GetNowCount();
-		mFps = 1000.f / ((t - mStartTime) / (float)N);
+		mFps = 1000.f / ((t - mStartTime) / (float)FPS);
 		mCount = 0;
 		mStartTime = t;
 	}

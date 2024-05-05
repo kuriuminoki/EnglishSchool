@@ -7,6 +7,7 @@ class Vocabulary;
 class WordTestStudy;
 class WordAddStudy;
 class Teacher;
+class StopWatch;
 
 
 class Study {
@@ -57,6 +58,8 @@ private:
 	Button* m_removeButton;
 
 	Teacher* m_teacher_p;
+
+	StopWatch* m_stopWatch;
 
 public:
 	WordTestStudy(Teacher* teacher_p);

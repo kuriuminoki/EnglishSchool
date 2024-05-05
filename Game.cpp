@@ -6,6 +6,7 @@
 #include "Setting.h"
 #include "Study.h"
 #include "Teacher.h"
+#include "Timer.h"
 
 
 Game::Game() {
@@ -20,6 +21,8 @@ Game::Game() {
 	m_study = new Study(m_font, m_teacher);
 	m_setting = new Setting();
 	m_backButton = new Button("タイトルへ戻る", 50, 50, 300, 100, GRAY, WHITE, m_font, BLACK);
+	m_stopWatch = new StopWatch();
+	m_stats = new Stats();
 }
 
 Game::~Game() {
@@ -29,9 +32,14 @@ Game::~Game() {
 	delete m_study;
 	delete m_setting;
 	delete m_teacher;
+	m_stats->setCnt(m_stopWatch->getCnt() + m_stats->getCnt());
+	delete m_stopWatch;
+	delete m_stats;
 }
 
 void Game::play() {
+
+	m_stopWatch->count();
 
 	GetMousePoint(&m_handX, &m_handY);
 
@@ -71,6 +79,43 @@ void Game::draw() const {
 	if (m_state != GAME_MODE::SELECT_MODE) {
 		m_backButton->draw(m_handX, m_handY);
 	}
+	else {
+		DrawStringToHandle(100, 900, ("総起動時間：" + getTimeString(m_stopWatch->getCnt() + m_stats->getCnt())).c_str(), WHITE, m_font);
+	}
+	DrawStringToHandle(50, 1000, getTimeString(m_stopWatch->getCnt()).c_str(), WHITE, m_font);
+}
+
+
+/*
+* 勉強の記録
+*/
+Stats::Stats() {
+	read();
+}
+
+Stats::~Stats() {
+	write();
+}
+
+bool Stats::read() {
+	FILE* intFp = nullptr;
+	if (fopen_s(&intFp, m_path, "rb") != 0) {
+		return false;
+	}
+	// Read
+	fread(&m_cnt, sizeof(m_cnt), 1, intFp);
+	fclose(intFp);
+	return true;
+}
+
+bool Stats::write() {
+	FILE* intFp = nullptr;
+	if (fopen_s(&intFp, m_path, "wb") != 0) {
+		return false;
+	}
+	fwrite(&m_cnt, sizeof(m_cnt), 1, intFp);
+	fclose(intFp);
+	return true;
 }
 
 

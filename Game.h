@@ -8,6 +8,8 @@ class Study;
 class SelectMode;
 class Setting;
 class Teacher;
+class Stats;
+class StopWatch;
 
 
 enum GAME_MODE {
@@ -40,6 +42,10 @@ private:
 	// ‹³t
 	Teacher* m_teacher;
 
+	StopWatch* m_stopWatch;
+
+	Stats* m_stats;
+
 public:
 
 	Game();
@@ -60,6 +66,28 @@ public:
 
 	void draw() const;
 
+};
+
+
+// •×‹­‚Ì‹L˜^
+class Stats {
+private:
+
+	const char* m_path = "data/stats/savedata.dat";
+
+	// ‘ƒvƒŒƒCŠÔ
+	long long int m_cnt;
+
+public:
+
+	Stats();
+	~Stats();
+
+	bool read();
+	bool write();
+
+	inline long long int getCnt() const { return m_cnt; }
+	inline void setCnt(long long int cnt) { m_cnt = cnt; }
 };
 
 

@@ -151,6 +151,7 @@
     <ClCompile Include="StudyDrawer.cpp" />
     <ClCompile Include="Teacher.cpp" />
     <ClCompile Include="TeacherDrawer.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Vocabulary.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +169,7 @@
     <ClInclude Include="OtherLessonDrawer.h" />
     <ClInclude Include="Setting.h" />
     <ClInclude Include="SettingDrawer.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Study.h" />
     <ClInclude Include="StudyDrawer.h" />
     <ClInclude Include="Teacher.h" />
