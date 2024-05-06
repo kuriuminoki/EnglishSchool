@@ -25,7 +25,7 @@ void TeacherDrawer::draw() {
 		DrawBox(550, 20, 1600, 170, WHITE, TRUE);
 		DrawTriangle(1100, 170, 1200, 170, 1250, 250, WHITE, TRUE);
 		string str = text->getText();
-		drawText(600, 50, 50, str, BLACK, m_font);
+		drawText(580, 50, 50, str, BLACK, m_font);
 	}
 	
 	// ‹³Žt‚Ì‰æ‘œ

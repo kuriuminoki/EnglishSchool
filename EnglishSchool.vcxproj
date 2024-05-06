@@ -145,6 +145,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameDrawer.cpp" />
     <ClCompile Include="Lesson.cpp" />
+    <ClCompile Include="LessonDrawer.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Setting.cpp" />
     <ClCompile Include="Study.cpp" />

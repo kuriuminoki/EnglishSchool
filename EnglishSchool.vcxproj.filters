@@ -81,6 +81,9 @@
     <ClCompile Include="Timer.cpp">
       <Filter>ソース ファイル\tools</Filter>
     </ClCompile>
+    <ClCompile Include="LessonDrawer.cpp">
+      <Filter>ソース ファイル\ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h">
