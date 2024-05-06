@@ -2,6 +2,7 @@
 #define LESSON_H_INCLUDED
 
 class Button;
+class Stats;
 class StopWatch;
 class Teacher;
 class WordTestStudy;
@@ -49,8 +50,11 @@ private:
 
 	Teacher* m_teacher_p;
 
+	Stats* m_stats_p;
+	Stats* m_dailyStats_p;
+
 public:
-	Lesson(int font, Teacher* teacher_p);
+	Lesson(int font, Teacher* teacher_p, Stats* stats_p, Stats* dailyStats_p);
 	~Lesson();
 
 	// I—¹‚Étrue‚ğ•Ô‚·

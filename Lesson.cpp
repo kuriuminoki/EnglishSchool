@@ -2,6 +2,7 @@
 #include "Button.h"
 #include "Control.h"
 #include "Define.h"
+#include "Game.h"
 #include "Study.h"
 #include "Teacher.h"
 #include "Timer.h"
@@ -11,10 +12,12 @@
 using namespace std;
 
 
-Lesson::Lesson(int font, Teacher* teacher_p) {
+Lesson::Lesson(int font, Teacher* teacher_p, Stats* stats_p, Stats* dailyStats_p) {
 
 	m_font = font;
 	m_teacher_p = teacher_p;
+	m_stats_p = stats_p;
+	m_dailyStats_p = dailyStats_p;
 
 	m_state = LESSON_NAME::SELECT_LESSON;
 
@@ -106,29 +109,53 @@ bool Lesson::play(int handX, int handY) {
 			break;
 		case WORD_TEST:				// ’PŒêƒeƒXƒg
 			m_wordTestStudy->play(handX, handY, false);
+			m_stats_p->setWordTestCnt(m_stats_p->getWordTestCnt() + 1);
+			m_dailyStats_p->setWordTestCnt(m_dailyStats_p->getWordTestCnt() + 1);
 			break;
 		case WORD_TEST_IMPORTANT:	// d—vŒêƒeƒXƒg
 			m_wordTestStudy->play(handX, handY, true);
+			m_stats_p->setOnlyImportantTestCnt(m_stats_p->getOnlyImportantTestCnt() + 1);
+			m_dailyStats_p->setOnlyImportantTestCnt(m_dailyStats_p->getOnlyImportantTestCnt() + 1);
 			break;
 		case DIARY:					// “ú‹L
+			m_stats_p->setDiaryCnt(m_stats_p->getDiaryCnt() + 1);
+			m_dailyStats_p->setDiaryCnt(m_dailyStats_p->getDiaryCnt() + 1);
 			break;
 		case RADIO_REVIEW:			// ƒ‰ƒWƒI‰p‰ï˜b•œK
+			m_stats_p->setRadioReviewCnt(m_stats_p->getRadioReviewCnt() + 1);
+			m_dailyStats_p->setRadioReviewCnt(m_dailyStats_p->getRadioReviewCnt() + 1);
 			break;
 		case GRAMMAR_STUDY:			// •¶–@
+			m_stats_p->setGrammarStudyCnt(m_stats_p->getGrammarStudyCnt() + 1);
+			m_dailyStats_p->setGrammarStudyCnt(m_dailyStats_p->getGrammarStudyCnt() + 1);
 			break;
 		case BREAK_TIME:			// ‹xŒe
+			m_stats_p->setBreakTimeCnt(m_stats_p->getBreakTimeCnt() + 1);
+			m_dailyStats_p->setBreakTimeCnt(m_dailyStats_p->getBreakTimeCnt() + 1);
 			break;
 		case FREE_STUDY:			// Ž©K
+			m_stats_p->setFreeStudyCnt(m_stats_p->getFreeStudyCnt() + 1);
+			m_dailyStats_p->setFreeStudyCnt(m_dailyStats_p->getFreeStudyCnt() + 1);
 			break;
 		case LONG_TEXT_STUDY:		// ’·•¶–â‘è
+			m_stats_p->setLongTextStudyCnt(m_stats_p->getLongTextStudyCnt() + 1);
+			m_dailyStats_p->setLongTextStudyCnt(m_dailyStats_p->getLongTextStudyCnt() + 1);
 			break;
 		case MORNING_REVIEW:		// ’©‚ÌU‚è•Ô‚è
+			m_stats_p->setMorningReviewCnt(m_stats_p->getMorningReviewCnt() + 1);
+			m_dailyStats_p->setMorningReviewCnt(m_dailyStats_p->getMorningReviewCnt() + 1);
 			break;
 		case RADIO:					// ƒ‰ƒWƒI‰p‰ï˜b
+			m_stats_p->setRadioCnt(m_stats_p->getRadioCnt() + 1);
+			m_dailyStats_p->setRadioCnt(m_dailyStats_p->getRadioCnt() + 1);
 			break;
 		case SPEAKING_STUDY:		// ‰¹“Ç—ûK
+			m_stats_p->setSpeakingStudyCnt(m_stats_p->getSpeakingStudyCnt() + 1);
+			m_dailyStats_p->setSpeakingStudyCnt(m_dailyStats_p->getSpeakingStudyCnt() + 1);
 			break;
 		case EVENING_REVIEW:		// –é‚ÌU‚è•Ô‚è
+			m_stats_p->setEveningReviewCnt(m_stats_p->getEveningReviewCnt() + 1);
+			m_dailyStats_p->setEveningReviewCnt(m_dailyStats_p->getEveningReviewCnt() + 1);
 			break;
 	}
 	if (m_state != LESSON_NAME::SELECT_LESSON) {
@@ -145,8 +172,26 @@ void Lesson::draw(int handX, int handY) const {
 		m_finishButton->draw(handX, handY);
 	}
 	string lessonName = "";
+	string dateName = "¡“úF";
+	const Stats* stats = m_dailyStats_p;
+	if (rightClick() > 1) {
+		dateName = "—ÝŒvF";
+		stats = m_stats_p;
+	}
 	switch (m_state) {
 	case SELECT_LESSON:			// ƒŒƒbƒXƒ“‘I‘ð‰æ–Ê
+		DrawFormatString(100, 280, WHITE, (dateName + getTimeString(stats->getWordTestCnt())).c_str());
+		DrawFormatString(500, 280, WHITE, (dateName + getTimeString(stats->getOnlyImportantTestCnt())).c_str());
+		DrawFormatString(900, 280, WHITE, (dateName + getTimeString(stats->getDiaryCnt())).c_str());
+		DrawFormatString(100, 430, WHITE, (dateName + getTimeString(stats->getRadioReviewCnt())).c_str());
+		DrawFormatString(500, 430, WHITE, (dateName + getTimeString(stats->getGrammarStudyCnt())).c_str());
+		DrawFormatString(900, 430, WHITE, (dateName + getTimeString(stats->getBreakTimeCnt())).c_str());
+		DrawFormatString(100, 580, WHITE, (dateName + getTimeString(stats->getFreeStudyCnt())).c_str());
+		DrawFormatString(500, 580, WHITE, (dateName + getTimeString(stats->getLongTextStudyCnt())).c_str());
+		DrawFormatString(900, 580, WHITE, (dateName + getTimeString(stats->getMorningReviewCnt())).c_str());
+		DrawFormatString(100, 730, WHITE, (dateName + getTimeString(stats->getRadioCnt())).c_str());
+		DrawFormatString(500, 730, WHITE, (dateName + getTimeString(stats->getSpeakingStudyCnt())).c_str());
+		DrawFormatString(900, 730, WHITE, (dateName + getTimeString(stats->getEveningReviewCnt())).c_str());
 		m_wordTestButton->draw(handX, handY);
 		m_onlyImportantTestButton->draw(handX, handY);
 		m_diaryButton->draw(handX, handY);
@@ -161,42 +206,46 @@ void Lesson::draw(int handX, int handY) const {
 		m_eveningReviewButton->draw(handX, handY);
 		break;
 	case WORD_TEST:				// ’PŒêƒeƒXƒg
+		lessonName = "‘S’PŒêƒeƒXƒg‚ÌŽžŠÔ 15m";
+		m_wordTestStudy->draw(handX, handY);
+		break;
 	case WORD_TEST_IMPORTANT:	// d—vŒêƒeƒXƒg
+		lessonName = "d—vŒêƒeƒXƒg‚ÌŽžŠÔ 15m";
 		m_wordTestStudy->draw(handX, handY);
 		break;
 	case DIARY:					// “ú‹L
-		lessonName = "“ú‹L•×‹­‚ÌŽžŠÔ";
+		lessonName = "“ú‹L•×‹­‚ÌŽžŠÔ 10m";
 		break;
 	case RADIO_REVIEW:			// ƒ‰ƒWƒI‰p‰ï˜b•œK
-		lessonName = "ƒ‰ƒWƒI‰p‰ï˜b•œK‚ÌŽžŠÔ";
+		lessonName = "ƒ‰ƒWƒI‰p‰ï˜b•œK‚ÌŽžŠÔ 5m";
 		break;
 	case GRAMMAR_STUDY:			// •¶–@
-		lessonName = "•¶–@•×‹­‚ÌŽžŠÔ";
+		lessonName = "•¶–@•×‹­‚ÌŽžŠÔ 10m";
 		break;
 	case BREAK_TIME:			// ‹xŒe
-		lessonName = "‹xŒeŽžŠÔ";
+		lessonName = "‹xŒeŽžŠÔ 10m";
 		break;
 	case FREE_STUDY:			// Ž©K
-		lessonName = "Ž©KŽžŠÔ";
+		lessonName = "Ž©KŽžŠÔ 30m";
 		break;
 	case LONG_TEXT_STUDY:		// ’·•¶–â‘è
-		lessonName = "’·•¶–â‘è‚Å•×‹­‚·‚é‚ÌŽžŠÔ";
+		lessonName = "’·•¶–â‘è‚Å•×‹­‚·‚éŽžŠÔ 15m";
 		break;
 	case MORNING_REVIEW:		// ’©‚ÌU‚è•Ô‚è
-		lessonName = "’©‚ÌU‚è•Ô‚è";
+		lessonName = "’©‚ÌU‚è•Ô‚è 10m";
 		break;
 	case RADIO:					// ƒ‰ƒWƒI‰p‰ï˜b
-		lessonName = "ƒ‰ƒWƒI‰p‰ï˜b‚ÌŽžŠÔ";
+		lessonName = "ƒ‰ƒWƒI‰p‰ï˜b‚ÌŽžŠÔ 20m";
 		break;
 	case SPEAKING_STUDY:		// ‰¹“Ç—ûK
-		lessonName = "‰¹“Ç—ûK‹­‚ÌŽžŠÔ";
+		lessonName = "‰¹“Ç—ûK‹­‚ÌŽžŠÔ 20m";
 		break;
 	case EVENING_REVIEW:		// –é‚ÌU‚è•Ô‚è
-		lessonName = "–é‚ÌU‚è•Ô‚è‚ÌŽžŠÔ";
+		lessonName = "–é‚ÌU‚è•Ô‚è‚ÌŽžŠÔ 20m";
 		break;
 	}
+	DrawStringToHandle(100, 250, lessonName.c_str(), WHITE, m_font);
 	if (m_state != LESSON_NAME::SELECT_LESSON && m_state != LESSON_NAME::WORD_TEST && m_state != LESSON_NAME::WORD_TEST_IMPORTANT) {
-		DrawStringToHandle(100, 300, lessonName.c_str(), WHITE, m_font);
 		DrawStringToHandle(550, 550, getTimeString(m_stopWatch->getCnt()).c_str(), WHITE, m_font);
 	}
 }

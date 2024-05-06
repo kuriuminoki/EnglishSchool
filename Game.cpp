@@ -8,21 +8,44 @@
 #include "Teacher.h"
 #include "Timer.h"
 
+#include <ctime>
+#include <sstream>
+
+using namespace std;
+
+
+string getDateStr() {
+	time_t t = std::time(nullptr);
+	struct tm now;
+	localtime_s(&now, &t);
+	ostringstream oss;
+	oss << now.tm_year + 1900 << "-" << now.tm_mon + 1 << "-" << now.tm_mday + 1;
+	return oss.str();
+}
+
 
 Game::Game() {
+	// セーブデータ
+	m_stats = new Stats("data/stats/savedata.dat");
+	m_dateStr = getDateStr();
+	m_dateStr = "data/stats/" + m_dateStr;
+	m_dateStr += ".dat";
+	m_dailyStats = new Stats(m_dateStr.c_str());
+
+	// 教師
 	m_teacher = new Teacher("トモチ");
 	m_teacher->setRandomText();
+
 	m_handX = 0;
 	m_handY = 0;
 	m_state = GAME_MODE::SELECT_MODE;
 	m_font = CreateFontToHandle(NULL, 40, 3);
 	m_selectMode = new SelectMode(m_font);
-	m_lesson = new Lesson(m_font, m_teacher);
+	m_lesson = new Lesson(m_font, m_teacher, m_stats, m_dailyStats);
 	m_study = new Study(m_font, m_teacher);
 	m_setting = new Setting();
 	m_backButton = new Button("タイトルへ戻る", 50, 50, 300, 100, GRAY, WHITE, m_font, BLACK);
 	m_stopWatch = new StopWatch();
-	m_stats = new Stats();
 }
 
 Game::~Game() {
@@ -33,8 +56,10 @@ Game::~Game() {
 	delete m_setting;
 	delete m_teacher;
 	m_stats->setCnt(m_stopWatch->getCnt() + m_stats->getCnt());
+	m_dailyStats->setCnt(m_stopWatch->getCnt() + m_dailyStats->getCnt());
 	delete m_stopWatch;
 	delete m_stats;
+	delete m_dailyStats;
 }
 
 void Game::play() {
@@ -80,6 +105,7 @@ void Game::draw() const {
 		m_backButton->draw(m_handX, m_handY);
 	}
 	else {
+		DrawStringToHandle(100, 850, ("今日の起動時間：" + getTimeString(m_stopWatch->getCnt() + m_dailyStats->getCnt())).c_str(), WHITE, m_font);
 		DrawStringToHandle(100, 900, ("総起動時間：" + getTimeString(m_stopWatch->getCnt() + m_stats->getCnt())).c_str(), WHITE, m_font);
 	}
 	DrawStringToHandle(50, 1000, getTimeString(m_stopWatch->getCnt()).c_str(), WHITE, m_font);
@@ -89,7 +115,8 @@ void Game::draw() const {
 /*
 * 勉強の記録
 */
-Stats::Stats() {
+Stats::Stats(const char* path) {
+	m_path = path;
 	read();
 }
 
@@ -104,6 +131,18 @@ bool Stats::read() {
 	}
 	// Read
 	fread(&m_cnt, sizeof(m_cnt), 1, intFp);
+	fread(&m_wordTestCnt, sizeof(m_wordTestCnt), 1, intFp);
+	fread(&m_onlyImportantTestCnt, sizeof(m_onlyImportantTestCnt), 1, intFp);
+	fread(&m_diaryCnt, sizeof(m_diaryCnt), 1, intFp);
+	fread(&m_radioReviewCnt, sizeof(m_radioReviewCnt), 1, intFp);
+	fread(&m_grammarStudyCnt, sizeof(m_grammarStudyCnt), 1, intFp);
+	fread(&m_breakTimeCnt, sizeof(m_breakTimeCnt), 1, intFp);
+	fread(&m_freeStudyCnt, sizeof(m_freeStudyCnt), 1, intFp);
+	fread(&m_longTextStudyCnt, sizeof(m_longTextStudyCnt), 1, intFp);
+	fread(&m_morningReviewCnt, sizeof(m_morningReviewCnt), 1, intFp);
+	fread(&m_radioCnt, sizeof(m_radioCnt), 1, intFp);
+	fread(&m_speakingStudyCnt, sizeof(m_speakingStudyCnt), 1, intFp);
+	fread(&m_eveningReviewCnt, sizeof(m_eveningReviewCnt), 1, intFp);
 	fclose(intFp);
 	return true;
 }
@@ -114,6 +153,18 @@ bool Stats::write() {
 		return false;
 	}
 	fwrite(&m_cnt, sizeof(m_cnt), 1, intFp);
+	fwrite(&m_wordTestCnt, sizeof(m_wordTestCnt), 1, intFp);
+	fwrite(&m_onlyImportantTestCnt, sizeof(m_onlyImportantTestCnt), 1, intFp);
+	fwrite(&m_diaryCnt, sizeof(m_diaryCnt), 1, intFp);
+	fwrite(&m_radioReviewCnt, sizeof(m_radioReviewCnt), 1, intFp);
+	fwrite(&m_grammarStudyCnt, sizeof(m_grammarStudyCnt), 1, intFp);
+	fwrite(&m_breakTimeCnt, sizeof(m_breakTimeCnt), 1, intFp);
+	fwrite(&m_freeStudyCnt, sizeof(m_freeStudyCnt), 1, intFp);
+	fwrite(&m_longTextStudyCnt, sizeof(m_longTextStudyCnt), 1, intFp);
+	fwrite(&m_morningReviewCnt, sizeof(m_morningReviewCnt), 1, intFp);
+	fwrite(&m_radioCnt, sizeof(m_radioCnt), 1, intFp);
+	fwrite(&m_speakingStudyCnt, sizeof(m_speakingStudyCnt), 1, intFp);
+	fwrite(&m_eveningReviewCnt, sizeof(m_eveningReviewCnt), 1, intFp);
 	fclose(intFp);
 	return true;
 }
