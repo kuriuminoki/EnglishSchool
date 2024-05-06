@@ -2,6 +2,7 @@
 #include "Define.h"
 #include "Game.h"
 #include "GameDrawer.h"
+#include "LessonDrawer.h"
 #include "StudyDrawer.h"
 #include "TeacherDrawer.h"
 
@@ -12,6 +13,7 @@ GameDrawer::GameDrawer(const Game* game) {
 	m_dispTeacher = true;
 	m_game_p = game;
 	m_studyDrawer = new StudyDrawer(m_game_p->getStudy());
+	m_lessonDrawer = new LessonDrawer(m_game_p->getLesson());
 	m_teacherDrawer = new TeacherDrawer(m_game_p->getTeacher());
 	m_kokuban = LoadGraph("picture/kokuban.png");
 }
@@ -48,7 +50,7 @@ void GameDrawer::draw() {
 		m_game_p->getSelectMode()->draw(handX, handY);
 		break;
 	case LESSON_MODE:
-
+		m_lessonDrawer->draw(handX, handY);
 		break;
 	case STUDY_MODE:
 		m_studyDrawer->draw(handX, handY);

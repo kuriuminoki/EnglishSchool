@@ -17,7 +17,7 @@ Game::Game() {
 	m_state = GAME_MODE::SELECT_MODE;
 	m_font = CreateFontToHandle(NULL, 40, 3);
 	m_selectMode = new SelectMode(m_font);
-	m_lesson = new Lesson();
+	m_lesson = new Lesson(m_font, m_teacher);
 	m_study = new Study(m_font, m_teacher);
 	m_setting = new Setting();
 	m_backButton = new Button("ƒ^ƒCƒgƒ‹‚Ö–ß‚é", 50, 50, 300, 100, GRAY, WHITE, m_font, BLACK);
@@ -50,18 +50,18 @@ void Game::play() {
 		m_state = m_selectMode->play(m_handX, m_handY);
 		break;
 	case LESSON_MODE:
-		if (m_lesson->play()) {
-			m_state = SELECT_MODE;
+		if (m_lesson->play(m_handX, m_handY)) {
+			m_state = GAME_MODE::SELECT_MODE;
 		}
 		break;
 	case STUDY_MODE:
 		if (m_study->play(m_handX, m_handY)) {
-			m_state = SELECT_MODE;
+			m_state = GAME_MODE::SELECT_MODE;
 		}
 		break;
 	case SETTING_MODE:
 		if (m_setting->play()) {
-			m_state = SELECT_MODE;
+			m_state = GAME_MODE::SELECT_MODE;
 		}
 		break;
 	}
