@@ -147,9 +147,9 @@ void WordTestStudy::draw(int handX, int handY) const {
 	DrawStringToHandle(600, 250, getTimeString(m_stopWatch->getCnt()).c_str(), WHITE, m_font);
 	Word word = m_vocabulary->getWord();
 	if (word.importantFlag) {
-		DrawStringToHandle(100, 300, "要注意！！", RED, m_font);
+		DrawStringToHandle(100, 350, "要注意！！", RED, m_font);
 	}
-	DrawStringToHandle(100, 400, word.english.c_str(), WHITE, m_font);
+	DrawStringToHandle(100, 430, word.english.c_str(), WHITE, m_font);
 	if (m_nextButton->getFlag()) {
 		DrawStringToHandle(100, 500, word.japanese.c_str(), LIGHT_BLUE, m_font);
 	}
