@@ -103,6 +103,20 @@ enum EMOTE {
 	ANGRY	// 注意
 };
 
+static const int NAME_SUM = 3;
+static const char* NAME_LIST[NAME_SUM] = {
+	"トモチ",
+	"ミヤトネ",
+	"オワダ"
+};
+
+static const int CLOTH_SUM = 3;
+static const char* CLOTH_LIST[CLOTH_SUM] = {
+	"",
+	"水着",
+	"突撃"
+};
+
 /*
 * 教師
 */
@@ -120,6 +134,15 @@ private:
 	// 名前
 	const char* m_name;
 
+	// 服
+	const char* m_cloth;
+
+	int m_nameIndex;
+	int m_clothIndex;
+
+	// キャラを反転描画するか
+	bool m_reverseX;
+
 	// セリフ
 	Text* m_text;
 
@@ -132,12 +155,13 @@ private:
 
 public:
 
-	Teacher(const char* name);
+	Teacher(int nameIndex, int clothIndex);
 	~Teacher();
 
 	// ゲッタ
 	inline const Text* getText() const { return m_text; }
 	inline const TeacherAction* getAction() const { return m_teacherAction; }
+	inline bool getReverseX() const { return m_reverseX; }
 
 	// 画像取得
 	int getHandle() const;
@@ -156,6 +180,16 @@ public:
 	void jump();
 
 	void quake();
+
+	void setNextTeacher();
+
+	void setNextCloth();
+
+	// 教師変更
+	void changeTeacher(int index);
+
+	// 服装変更
+	void changeCloth(int index);
 
 };
 

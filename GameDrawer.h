@@ -4,6 +4,7 @@
 
 class Game;
 class LessonDrawer;
+class SettingDrawer;
 class StudyDrawer;
 class TeacherDrawer;
 
@@ -18,6 +19,8 @@ private:
 	StudyDrawer* m_studyDrawer;
 
 	LessonDrawer* m_lessonDrawer;
+
+	SettingDrawer* m_settingDrawer;
 
 	// •”Â‰æ‘œ
 	int m_kokuban;
