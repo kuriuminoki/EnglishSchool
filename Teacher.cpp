@@ -15,6 +15,14 @@ int calcIndex(int size, int index, bool repeat) {
 }
 
 
+void clearVector(vector<int>& vec) {
+	for (unsigned int i = 0; i < vec.size(); i++) {
+		DeleteGraph(vec[i]);
+	}
+	vec.clear();
+}
+
+
 
 /*
 * 教師のアクション
@@ -172,20 +180,15 @@ std::string Text::getText() const {
 /*
 * 教師
 */
-Teacher::Teacher(const char* name) {
-	// 名前
-	m_name = name;
+Teacher::Teacher(int nameIndex, int clothIndex) {
+	m_reverseX = true;
 
-	// 画像
-	string path = "picture/";
-	path += m_name;
-	path += "/";
-	m_normalHandle.push_back(LoadGraph((path + "通常1.png").c_str()));
-	m_normalHandle.push_back(LoadGraph((path + "通常2.png").c_str()));
-	m_smileHandle.push_back(LoadGraph((path + "笑顔1.png").c_str()));
-	m_smileHandle.push_back(LoadGraph((path + "笑顔2.png").c_str()));
-	m_angryHandle.push_back(LoadGraph((path + "注意1.png").c_str()));
-	m_angryHandle.push_back(LoadGraph((path + "注意2.png").c_str()));
+	// 名前
+	m_name = NAME_LIST[nameIndex];
+
+	m_cloth = CLOTH_LIST[clothIndex];
+
+	changeTeacher(nameIndex);
 
 	// セリフ
 	m_text = nullptr;
@@ -272,4 +275,57 @@ void Teacher::jump() {
 
 void Teacher::quake() {
 	m_teacherAction->setQuakeCnt(30);
+}
+
+void Teacher::setNextTeacher() {
+	changeTeacher(m_nameIndex + 1);
+}
+
+void Teacher::setNextCloth() {
+	changeCloth(m_clothIndex + 1);
+}
+
+// 教師変更
+void Teacher::changeTeacher(int index) {
+
+	m_nameIndex = index % NAME_SUM;
+	if (m_nameIndex == 2) {
+		m_reverseX = false;
+	}
+	else {
+		m_reverseX = true;
+	}
+
+	// セリフがあるなら消す
+	if (m_text != nullptr) { 
+		delete m_text;
+		m_text = nullptr;
+	}
+
+	// 名前
+	m_name = NAME_LIST[m_nameIndex];
+
+	// 初期化
+	clearVector(m_normalHandle);
+	clearVector(m_smileHandle);
+	clearVector(m_angryHandle);
+
+	// 画像
+	string path = "picture/";
+	path += m_name;
+	path += "/";
+	path += m_cloth;
+	m_normalHandle.push_back(LoadGraph((path + "通常1.png").c_str()));
+	m_normalHandle.push_back(LoadGraph((path + "通常2.png").c_str()));
+	m_smileHandle.push_back(LoadGraph((path + "笑顔1.png").c_str()));
+	m_smileHandle.push_back(LoadGraph((path + "笑顔2.png").c_str()));
+	m_angryHandle.push_back(LoadGraph((path + "注意1.png").c_str()));
+	m_angryHandle.push_back(LoadGraph((path + "注意2.png").c_str()));
+}
+
+// 服装変更
+void Teacher::changeCloth(int index) {
+	m_clothIndex = index % CLOTH_SUM;
+	m_cloth = CLOTH_LIST[m_clothIndex];
+	changeTeacher(m_nameIndex);
 }

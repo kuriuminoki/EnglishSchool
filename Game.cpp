@@ -33,7 +33,7 @@ Game::Game() {
 	m_dailyStats = new Stats(m_dateStr.c_str());
 
 	// 教師
-	m_teacher = new Teacher("トモチ");
+	m_teacher = new Teacher(0, 0);
 	m_teacher->setRandomText();
 
 	m_handX = 0;
@@ -43,7 +43,7 @@ Game::Game() {
 	m_selectMode = new SelectMode(m_font);
 	m_lesson = new Lesson(m_font, m_teacher, m_stats, m_dailyStats);
 	m_study = new Study(m_font, m_teacher);
-	m_setting = new Setting();
+	m_setting = new Setting(m_font, m_teacher);
 	m_backButton = new Button("タイトルへ戻る", 50, 50, 300, 100, GRAY, WHITE, m_font, BLACK);
 	m_stopWatch = new StopWatch();
 }
@@ -60,6 +60,7 @@ Game::~Game() {
 	delete m_stopWatch;
 	delete m_stats;
 	delete m_dailyStats;
+	delete m_backButton;
 }
 
 void Game::play() {
@@ -85,7 +86,7 @@ void Game::play() {
 		}
 		break;
 	case SETTING_MODE:
-		if (m_setting->play()) {
+		if (m_setting->play(m_handX, m_handY)) {
 			m_state = GAME_MODE::SELECT_MODE;
 		}
 		break;
