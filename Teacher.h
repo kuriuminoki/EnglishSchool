@@ -103,11 +103,13 @@ enum EMOTE {
 	ANGRY	// 注意
 };
 
-static const int NAME_SUM = 3;
+static const int NAME_SUM = 5;
 static const char* NAME_LIST[NAME_SUM] = {
 	"トモチ",
 	"ミヤトネ",
-	"オワダ"
+	"オワダ",
+	"トウノ",
+	"タキノ"
 };
 
 static const int CLOTH_SUM = 3;
