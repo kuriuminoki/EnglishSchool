@@ -289,7 +289,7 @@ void Teacher::setNextCloth() {
 void Teacher::changeTeacher(int index) {
 
 	m_nameIndex = index % NAME_SUM;
-	if (m_nameIndex == 2) {
+	if (m_nameIndex == 2 || m_nameIndex == 3) {
 		m_reverseX = false;
 	}
 	else {
