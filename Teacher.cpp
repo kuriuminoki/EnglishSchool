@@ -188,8 +188,6 @@ Teacher::Teacher(int nameIndex, int clothIndex) {
 
 	m_cloth = CLOTH_LIST[clothIndex];
 
-	changeTeacher(nameIndex);
-
 	for (unsigned int i = 0; i < TEACHER_SUM; i++) {
 		m_exp.push_back(0);
 		string path = "data/teacher/";
@@ -217,6 +215,8 @@ Teacher::Teacher(int nameIndex, int clothIndex) {
 	m_animeRepeat = true;
 
 	m_handleIndex = 0;
+
+	changeTeacher(nameIndex);
 }
 
 Teacher::~Teacher() {
@@ -265,13 +265,27 @@ void Teacher::setText(int num, int wait, EMOTE emote, bool animeRepeat) {
 	m_animeRepeat = animeRepeat;
 }
 
+// 
 void Teacher::setRandomText() {
-	int num = GetRand(4) + 1000;
+	// セリフの総数
+	int sum = 5;
+	// レベルが上がるとセリフの数が増える
+	if (getLevel() < 10) {
+		sum = 5;
+	}
+	int num = GetRand(sum - 1) + 1000;
 	setText(num, 120, EMOTE::NORMAL, true);
 }
 
+// 
 void Teacher::setAdviceText() {
-	int num = GetRand(4) + 2000;
+	// セリフの総数
+	int sum = 5;
+	// レベルが上がるとセリフの数が増える
+	if (getLevel() < 10) {
+		sum = 5;
+	}
+	int num = GetRand(sum - 1) + 2000;
 	setText(num, 120, EMOTE::NORMAL, true);
 }
 
@@ -333,6 +347,12 @@ void Teacher::changeTeacher(int index) {
 
 	// 名前
 	m_name = TEACHER_LIST[m_nameIndex];
+
+	// レベルと使える服の判定
+	if (getLevel() / 10 < m_clothIndex) {
+		m_clothIndex = 0;
+		m_cloth = CLOTH_LIST[m_clothIndex];
+	}
 
 	// 初期化
 	clearVector(m_normalHandle);

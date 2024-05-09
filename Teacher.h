@@ -103,6 +103,7 @@ enum EMOTE {
 	ANGRY	// 注意
 };
 
+// 教師一覧
 static const int TEACHER_SUM = 5;
 static const char* TEACHER_LIST[TEACHER_SUM] = {
 	"トモチ",
@@ -112,6 +113,7 @@ static const char* TEACHER_LIST[TEACHER_SUM] = {
 	"タキノ"
 };
 
+// 服 10レベルごとに使える服が+1されていく
 static const int CLOTH_SUM = 3;
 static const char* CLOTH_LIST[CLOTH_SUM] = {
 	"",
@@ -168,7 +170,8 @@ public:
 	inline const TeacherAction* getAction() const { return m_teacherAction; }
 	inline bool getReverseX() const { return m_reverseX; }
 	inline long long int getExp() const { return m_exp[m_nameIndex]; }
-	inline long long int getLevel() const { return m_exp[m_nameIndex] / 60 / 60 / 60 / 10; }
+	// Level = exp / 60 / 60 / 60 / 10
+	inline long long int getLevel() const { return m_exp[m_nameIndex] / 2160000; }
 
 	// 画像取得
 	int getHandle() const;
@@ -199,7 +202,14 @@ public:
 	void changeCloth(int index);
 
 	// 経験値獲得
-	void addExp(long long int exp) { m_exp[m_nameIndex] += exp; }
+	void addExp(long long int exp) { 
+		long long int prevLevel = getLevel();
+		m_exp[m_nameIndex] += exp;
+		// レベルアップ
+		if(prevLevel < getLevel()){
+			setText(7, 120, EMOTE::SMILE, true);
+		}
+	}
 
 };
 
