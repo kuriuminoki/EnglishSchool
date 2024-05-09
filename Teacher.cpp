@@ -184,11 +184,27 @@ Teacher::Teacher(int nameIndex, int clothIndex) {
 	m_reverseX = true;
 
 	// 名前
-	m_name = NAME_LIST[nameIndex];
+	m_name = TEACHER_LIST[nameIndex];
 
 	m_cloth = CLOTH_LIST[clothIndex];
 
 	changeTeacher(nameIndex);
+
+	for (unsigned int i = 0; i < TEACHER_SUM; i++) {
+		m_exp.push_back(0);
+		string path = "data/teacher/";
+		path += TEACHER_LIST[i];
+		path += ".dat";
+		FILE* intFp = nullptr;
+		if (fopen_s(&intFp, path.c_str(), "rb") != 0) {
+			continue;
+		}
+		// Read
+		long long int exp = 0;
+		fread(&exp, sizeof(exp), 1, intFp);
+		m_exp[i] = exp;
+		fclose(intFp);
+	}
 
 	// セリフ
 	m_text = nullptr;
@@ -204,6 +220,19 @@ Teacher::Teacher(int nameIndex, int clothIndex) {
 }
 
 Teacher::~Teacher() {
+	for (unsigned int i = 0; i < TEACHER_SUM; i++) {
+		string path = "data/teacher/";
+		path += TEACHER_LIST[i];
+		path += ".dat";
+		FILE* intFp = nullptr;
+		if (fopen_s(&intFp, path.c_str(), "wb") != 0) {
+			continue;
+		}
+		// Read
+		long long int exp = m_exp[i];
+		fwrite(&exp, sizeof(exp), 1, intFp);
+		fclose(intFp);
+	}
 	for (unsigned int i = 0; i < m_normalHandle.size(); i++) {
 		DeleteGraph(m_normalHandle[i]);
 	}
@@ -288,7 +317,7 @@ void Teacher::setNextCloth() {
 // 教師変更
 void Teacher::changeTeacher(int index) {
 
-	m_nameIndex = index % NAME_SUM;
+	m_nameIndex = index % TEACHER_SUM;
 	if (m_nameIndex == 2 || m_nameIndex == 3) {
 		m_reverseX = false;
 	}
@@ -303,7 +332,7 @@ void Teacher::changeTeacher(int index) {
 	}
 
 	// 名前
-	m_name = NAME_LIST[m_nameIndex];
+	m_name = TEACHER_LIST[m_nameIndex];
 
 	// 初期化
 	clearVector(m_normalHandle);

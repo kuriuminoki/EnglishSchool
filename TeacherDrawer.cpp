@@ -1,9 +1,11 @@
 #include "TeacherDrawer.h"
 #include "Teacher.h"
+#include "Timer.h"
 #include "Define.h"
 #include "DxLib.h"
 
 #include <algorithm>
+#include <sstream>
 
 using namespace std;
 
@@ -35,6 +37,11 @@ void TeacherDrawer::draw() {
 	dy = m_teacher->getAction()->getDy();
 	DrawRotaGraph(1500 + dx, 600 + dy, 0.7, 0, handle, TRUE, m_teacher->getReverseX());
 
+	// ‹³Žt‚ÌƒŒƒxƒ‹
+	ostringstream oss;
+	oss << "Level: " << m_teacher->getLevel();
+	DrawStringToHandle(900, 990, oss.str().c_str(), BLACK, m_font);
+	DrawStringToHandle(900, 1040, getTimeString(m_teacher->getExp()).c_str(), BLACK, m_font);
 }
 
 void TeacherDrawer::drawText(int x, int y, int height, const std::string text, int color, int font) {

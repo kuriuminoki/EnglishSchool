@@ -163,6 +163,7 @@ bool Lesson::play(int handX, int handY) {
 			m_state = LESSON_NAME::SELECT_LESSON;
 			m_wordTestStudy->init(false);
 		}
+		m_teacher_p->addExp(1);
 	}
 	return false;
 }
