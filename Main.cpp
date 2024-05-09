@@ -83,8 +83,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 		Wait();
 		if (controlEsc() == TRUE) { 
-			delete game;
-			DxLib_End();
+			break;
 		}
 		//FPSëÄçÏÇ±Ç±Ç‹Ç≈
 	}

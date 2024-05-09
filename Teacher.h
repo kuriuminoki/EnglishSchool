@@ -103,8 +103,8 @@ enum EMOTE {
 	ANGRY	// 注意
 };
 
-static const int NAME_SUM = 5;
-static const char* NAME_LIST[NAME_SUM] = {
+static const int TEACHER_SUM = 5;
+static const char* TEACHER_LIST[TEACHER_SUM] = {
 	"トモチ",
 	"ミヤトネ",
 	"オワダ",
@@ -155,6 +155,9 @@ private:
 
 	TeacherAction* m_teacherAction;
 
+	// 経験値
+	std::vector<long long int> m_exp;
+
 public:
 
 	Teacher(int nameIndex, int clothIndex);
@@ -164,6 +167,8 @@ public:
 	inline const Text* getText() const { return m_text; }
 	inline const TeacherAction* getAction() const { return m_teacherAction; }
 	inline bool getReverseX() const { return m_reverseX; }
+	inline long long int getExp() const { return m_exp[m_nameIndex]; }
+	inline long long int getLevel() const { return m_exp[m_nameIndex] / 60 / 60 / 60 / 10; }
 
 	// 画像取得
 	int getHandle() const;
@@ -192,6 +197,9 @@ public:
 
 	// 服装変更
 	void changeCloth(int index);
+
+	// 経験値獲得
+	void addExp(long long int exp) { m_exp[m_nameIndex] += exp; }
 
 };
 

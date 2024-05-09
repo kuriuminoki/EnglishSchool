@@ -46,6 +46,7 @@ bool Study::play(int handX, int handY) {
 		}
 	}
 	else {
+		m_teacher_p->addExp(1);
 		if (leftClick() == 1 && m_finishButton->overlap(handX, handY)) {
 			m_state = STUDY_MODE::SELECT_MODE;
 			m_wordTestStudy->init(false);
