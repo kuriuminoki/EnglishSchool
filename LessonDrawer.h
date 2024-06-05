@@ -14,6 +14,8 @@ public:
 	LessonDrawer(const Lesson* lesson);
 	~LessonDrawer();
 
+	void setLesson(const Lesson* lesson) { m_lesson_p = lesson; }
+
 	void draw(int handX, int handY);
 
 };

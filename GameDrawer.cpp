@@ -13,8 +13,8 @@
 GameDrawer::GameDrawer(const Game* game) {
 	m_dispTeacher = true;
 	m_game_p = game;
-	m_studyDrawer = new StudyDrawer(m_game_p->getStudy());
-	m_lessonDrawer = new LessonDrawer(m_game_p->getLesson());
+	m_studyDrawer = new StudyDrawer(nullptr);
+	m_lessonDrawer = new LessonDrawer(nullptr);
 	m_teacherDrawer = new TeacherDrawer(m_game_p->getTeacher());
 	m_settingDrawer = new SettingDrawer(m_game_p->getSetting());
 	m_kokuban = LoadGraph("picture/kokuban.png");
@@ -55,9 +55,11 @@ void GameDrawer::draw() {
 		m_game_p->getSelectMode()->draw(handX, handY);
 		break;
 	case LESSON_MODE:
+		m_lessonDrawer->setLesson(m_game_p->getLesson());
 		m_lessonDrawer->draw(handX, handY);
 		break;
 	case STUDY_MODE:
+		m_studyDrawer->setStudy(m_game_p->getStudy());
 		m_studyDrawer->draw(handX, handY);
 		break;
 	case SETTING_MODE:

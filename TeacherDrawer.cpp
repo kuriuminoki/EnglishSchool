@@ -35,7 +35,8 @@ void TeacherDrawer::draw() {
 	int dx = 0, dy = 0;
 	dx = m_teacher->getAction()->getDx();
 	dy = m_teacher->getAction()->getDy();
-	DrawRotaGraph(1500 + dx, 600 + dy, 0.7, 0, handle, TRUE, m_teacher->getReverseX());
+	double r = m_teacher->getAction()->getR();
+	DrawRotaGraph(1500 + dx, 600 + dy, 0.7, r, handle, TRUE, m_teacher->getReverseX());
 
 	// ‹³t‚ÌƒŒƒxƒ‹
 	ostringstream oss;

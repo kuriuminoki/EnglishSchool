@@ -14,6 +14,8 @@ public:
 	StudyDrawer(const Study* study);
 	~StudyDrawer();
 
+	void setStudy(const Study* study) { m_study_p = study; }
+
 	void draw(int handX, int handY);
 
 };

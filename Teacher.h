@@ -26,6 +26,13 @@ private:
 	// 振動によるずれ
 	int m_quakeDx, m_quakeDy;
 
+	// 傾き
+	double m_r;
+	// 左右に揺れる残り時間
+	double m_rCount;
+	// 回転方向
+	bool m_r_d;
+
 public:
 
 	TeacherAction();
@@ -33,10 +40,12 @@ public:
 	// ゲッタ
 	int getDx() const { return m_dx + m_quakeDx; }
 	int getDy() const { return m_dy + m_quakeDy; }
+	double getR() const { return m_r; }
 
 	// セッタ
 	void setVy(int vy) { m_vy = vy; m_jumpFlag = true; }
 	void setQuakeCnt(int cnt) { m_quakeCnt = cnt; }
+	void setRCnt(int cnt) { m_rCount = cnt; }
 
 	void init();
 
@@ -74,10 +83,18 @@ private:
 
 	TeacherAction* m_teacherAction_p;
 
+	// 無理やりセリフを変えられたらtrueになる
+	bool m_forceFlag;
+
 public:
 
 	Text(const char* speakerName, int num, int wait, TeacherAction* teacherAction_p);
 	~Text();
+
+	bool getForceFlag() const { return m_forceFlag; }
+
+	// 無理やりセリフを変える
+	void setText(std::string text);
 
 	inline unsigned int getCnt() { return m_cnt; }
 
@@ -179,6 +196,9 @@ public:
 	// 発言開始
 	void setText(int num, int wait, EMOTE emote, bool animeRepeat);
 
+	// 音読
+	void speaking(std::string sentence, int wait, EMOTE emote, bool animeRepeat);
+
 	// 雑談
 	void setRandomText();
 
@@ -190,6 +210,8 @@ public:
 	void jump();
 
 	void quake();
+
+	void enjoy();
 
 	void setNextTeacher();
 

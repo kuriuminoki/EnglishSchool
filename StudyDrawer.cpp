@@ -13,5 +13,7 @@ StudyDrawer::~StudyDrawer() {
 }
 
 void StudyDrawer::draw(int handX, int handY) {
-	m_study_p->draw(handX, handY);
+	if (m_study_p != nullptr) {
+		m_study_p->draw(handX, handY);
+	}
 }

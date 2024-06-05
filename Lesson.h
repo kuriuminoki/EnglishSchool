@@ -6,6 +6,7 @@ class Stats;
 class StopWatch;
 class Teacher;
 class WordTestStudy;
+class SpeakingPractice;
 
 enum LESSON_NAME {
 	SELECT_LESSON,			// ƒŒƒbƒXƒ“‘I‘ð‰æ–Ê
@@ -31,6 +32,7 @@ private:
 	StopWatch* m_stopWatch;
 
 	WordTestStudy* m_wordTestStudy;
+	SpeakingPractice* m_speakingPractice;
 
 	Button* m_finishButton;
 	Button* m_wordTestButton;
