@@ -47,7 +47,7 @@ bool Vocabulary::read() {
 			if (buff[i] == '\"') {
 				ignore = !ignore;
 			}
-			else if (buff[i] == ',' && now < 3) {
+			else if (buff[i] == ',' && now < 3 && !ignore) {
 				if (now == 0) {
 					word.importantFlag = (bool)stoi(oneCell);
 					if (word.importantFlag) { m_importantWordSum++; }
@@ -83,9 +83,9 @@ bool Vocabulary::write() const {
 	outputFile << "important,english,japanese,example" << endl;
 	for (unsigned int i = 0; i < m_words.size(); i++) {
 		outputFile << (int)m_words[i].importantFlag << ",";
-		outputFile << m_words[i].english << ",";
-		outputFile << m_words[i].japanese << ",";
-		outputFile << m_words[i].example << endl;
+		outputFile << '\"' << m_words[i].english << '\"' << ",";
+		outputFile << '\"' << m_words[i].japanese << '\"' << ",";
+		outputFile << '\"' << m_words[i].example << '\"' << endl;
 	}
 	return true;
 }
@@ -240,9 +240,9 @@ bool SpeakingSet::write() const {
 	outputFile << "important,english,japanese,appendix,count" << endl;
 	for (unsigned int i = 0; i < m_sentences.size(); i++) {
 		outputFile << (int)m_sentences[i].importantFlag << ",";
-		outputFile << m_sentences[i].english << ",";
-		outputFile << m_sentences[i].japanese << ",";
-		outputFile << m_sentences[i].appendix << ",";
+		outputFile << '\"' << m_sentences[i].english << '\"' << ",";
+		outputFile << '\"' << m_sentences[i].japanese << '\"' << ",";
+		outputFile << '\"' << m_sentences[i].appendix << '\"' << ",";
 		outputFile << m_sentences[i].count << endl;
 	}
 	return true;
