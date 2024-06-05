@@ -24,6 +24,7 @@ Lesson::Lesson(int font, Teacher* teacher_p, Stats* stats_p, Stats* dailyStats_p
 	m_stopWatch = new StopWatch();
 
 	m_wordTestStudy = new WordTestStudy(m_teacher_p);
+	m_speakingPractice = new SpeakingPractice(m_teacher_p);
 
 	m_finishButton = new Button("終了", 1650, 50, 200, 100, GRAY, WHITE, m_font, BLACK);
 	m_wordTestButton = new Button("全単語テスト", 100, 300, 350, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
@@ -44,6 +45,7 @@ Lesson::Lesson(int font, Teacher* teacher_p, Stats* stats_p, Stats* dailyStats_p
 Lesson::~Lesson() {
 	delete m_stopWatch;
 	delete m_wordTestStudy;
+	delete m_speakingPractice;
 	delete m_finishButton;
 	delete m_wordTestButton;
 	delete m_onlyImportantTestButton;
@@ -66,6 +68,7 @@ bool Lesson::play(int handX, int handY) {
 			if (leftClick() == 1) {
 				if (m_wordTestButton->overlap(handX, handY)) {
 					m_state = LESSON_NAME::WORD_TEST;
+					m_wordTestStudy->init(false);
 				}
 				else if (m_onlyImportantTestButton->overlap(handX, handY)) {
 					m_state = LESSON_NAME::WORD_TEST_IMPORTANT;
@@ -96,6 +99,7 @@ bool Lesson::play(int handX, int handY) {
 					m_state = LESSON_NAME::RADIO;
 				}
 				else if (m_speakingStudyButton->overlap(handX, handY)) {
+					m_speakingPractice->init(false);
 					m_state = LESSON_NAME::SPEAKING_STUDY;
 				}
 				else if (m_eveningReviewButton->overlap(handX, handY)) {
@@ -150,6 +154,7 @@ bool Lesson::play(int handX, int handY) {
 			m_dailyStats_p->setRadioCnt(m_dailyStats_p->getRadioCnt() + 1);
 			break;
 		case SPEAKING_STUDY:		// 音読練習
+			m_speakingPractice->play(handX, handY, false);
 			m_stats_p->setSpeakingStudyCnt(m_stats_p->getSpeakingStudyCnt() + 1);
 			m_dailyStats_p->setSpeakingStudyCnt(m_dailyStats_p->getSpeakingStudyCnt() + 1);
 			break;
@@ -162,6 +167,7 @@ bool Lesson::play(int handX, int handY) {
 		if (leftClick() == 1 && m_finishButton->overlap(handX, handY)) {
 			m_state = LESSON_NAME::SELECT_LESSON;
 			m_wordTestStudy->init(false);
+			m_speakingPractice->init(false);
 		}
 		m_teacher_p->addExp(1);
 	}
@@ -239,6 +245,7 @@ void Lesson::draw(int handX, int handY) const {
 		lessonName = "ラジオ英会話の時間 20m";
 		break;
 	case SPEAKING_STUDY:		// 音読練習
+		m_speakingPractice->draw(handX, handY);
 		lessonName = "音読練習強の時間 20m";
 		break;
 	case EVENING_REVIEW:		// 夜の振り返り

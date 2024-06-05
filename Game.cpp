@@ -41,8 +41,8 @@ Game::Game() {
 	m_state = GAME_MODE::SELECT_MODE;
 	m_font = CreateFontToHandle(NULL, 40, 3);
 	m_selectMode = new SelectMode(m_font);
-	m_lesson = new Lesson(m_font, m_teacher, m_stats, m_dailyStats);
-	m_study = new Study(m_font, m_teacher);
+	m_lesson = nullptr;
+	m_study = nullptr;
 	m_setting = new Setting(m_font, m_teacher);
 	m_backButton = new Button("ƒ^ƒCƒgƒ‹‚Ö–ß‚é", 50, 50, 300, 100, GRAY, WHITE, m_font, BLACK);
 	m_stopWatch = new StopWatch();
@@ -51,8 +51,12 @@ Game::Game() {
 Game::~Game() {
 	DeleteFontToHandle(m_font);
 	delete m_selectMode;
-	delete m_lesson;
-	delete m_study;
+	if (m_lesson != nullptr) {
+		delete m_lesson;
+	}
+	if (m_study != nullptr) {
+		delete m_study;
+	}
 	delete m_setting;
 	delete m_teacher;
 	m_stats->setCnt(m_stopWatch->getCnt() + m_stats->getCnt());
@@ -74,6 +78,20 @@ void Game::play() {
 	switch (m_state) {
 	case SELECT_MODE:
 		m_state = m_selectMode->play(m_handX, m_handY);
+		if (m_state == LESSON_MODE && m_lesson == nullptr) {
+			if (m_study != nullptr) {
+				delete m_study;
+				m_study = nullptr;
+			}
+			m_lesson = new Lesson(m_font, m_teacher, m_stats, m_dailyStats);
+		}
+		else if (m_state == STUDY_MODE && m_study == nullptr) {
+			if (m_lesson != nullptr) {
+				delete m_lesson;
+				m_lesson = nullptr;
+			}
+			m_study = new Study(m_font, m_teacher);
+		}
 		break;
 	case LESSON_MODE:
 		if (m_lesson->play(m_handX, m_handY)) {

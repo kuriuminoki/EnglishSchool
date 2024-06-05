@@ -39,6 +39,8 @@ void TeacherAction::init() {
 	m_quakeCnt = 0;
 	m_quakeDx = 0;
 	m_quakeDy = 0;
+	m_r = 0;
+	m_r_d = true;
 }
 
 void TeacherAction::play() {
@@ -60,6 +62,25 @@ void TeacherAction::play() {
 		}
 	}
 
+	if (m_r != 0 || m_rCount > 0) {
+		m_rCount--;
+		if (m_r_d) {
+			m_r += 0.005;
+			if (m_r > 0.05) {
+				m_r_d = !m_r_d;
+			}
+		}
+		else {
+			m_r -= 0.005;
+			if (m_r < -0.05) {
+				m_r_d = !m_r_d;
+			}
+		}
+		if (m_rCount < 0 && abs(m_r) < 0.01) {
+			m_r = 0;
+		}
+	}
+
 }
 
 
@@ -78,6 +99,7 @@ Text::Text(const char* speakerName, int num, int wait, TeacherAction* teacherAct
 	oss << "text/" << speakerName << "/" << num << ".txt";
 	m_fp = FileRead_open(oss.str().c_str());
 	m_teacherAction_p = teacherAction_p;
+	m_forceFlag = false;
 }
 
 Text::~Text() {
@@ -85,11 +107,25 @@ Text::~Text() {
 	FileRead_close(m_fp);
 }
 
+void Text::setText(string text) {
+	m_text = text;
+	m_textNow = 0;
+	m_cnt = 0;
+	m_forceFlag = true;
+}
+
 // 会話を行う
 bool Text::play() {
 	if (m_wait == 0) { return true; }
 	// プレイヤーからのアクション（スペースキー入力）
 	if (finishText()) {
+		if (m_forceFlag) { 
+			if (m_wait > 0) {
+				m_wait--;
+				return false;
+			}
+			return true;
+		}
 		// 全ての会話が終わった
 		if (FileRead_eof(m_fp) != 0) {
 			m_wait--;
@@ -265,6 +301,11 @@ void Teacher::setText(int num, int wait, EMOTE emote, bool animeRepeat) {
 	m_animeRepeat = animeRepeat;
 }
 
+void Teacher::speaking(string sentence, int wait, EMOTE emote, bool animeRepeat) {
+	setText(1, wait, emote, animeRepeat);
+	m_text->setText(sentence);
+}
+
 // 
 void Teacher::setRandomText() {
 	// セリフの総数
@@ -300,9 +341,15 @@ void Teacher::play() {
 		else {
 			if (m_text->getCnt() % ANIME_SPEED == 0 && !m_text->finishText()) {
 				m_handleIndex++;
+				if (m_text->getForceFlag()) {
+					enjoy();
+				}
 			}
 			else if (m_text->finishText()) {
 				m_handleIndex = 0;
+				if (m_text->getForceFlag()) {
+					m_teacherAction->setRCnt(0);
+				}
 			}
 		}
 	}
@@ -318,6 +365,10 @@ void Teacher::jump() {
 
 void Teacher::quake() {
 	m_teacherAction->setQuakeCnt(30);
+}
+
+void Teacher::enjoy() {
+	m_teacherAction->setRCnt(30);
 }
 
 void Teacher::setNextTeacher() {
