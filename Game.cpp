@@ -127,7 +127,7 @@ void Game::draw() const {
 		DrawStringToHandle(100, 850, ("今日の起動時間：" + getTimeString(m_stopWatch->getCnt() + m_dailyStats->getCnt())).c_str(), WHITE, m_font);
 		DrawStringToHandle(100, 900, ("総起動時間：" + getTimeString(m_stopWatch->getCnt() + m_stats->getCnt())).c_str(), WHITE, m_font);
 	}
-	DrawStringToHandle(50, 1000, getTimeString(m_stopWatch->getCnt()).c_str(), WHITE, m_font);
+	DrawStringToHandle(50, 1000, getTimeString(m_stopWatch->getCnt()).c_str(), BLUE, m_font);
 }
 
 

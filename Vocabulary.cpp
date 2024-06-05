@@ -40,10 +40,14 @@ bool Vocabulary::read() {
 		Word word;
 		int now = 0;
 		string oneCell = "";
+		bool ignore = false;
 		// 1文字ずつ見ていく
 		for (int i = 0; buff[i] != '\0'; i++) {
 			// CSVファイルなのでカンマで区切ってoneDataにpush_back
-			if (buff[i] == ',' && now < 3) {
+			if (buff[i] == '\"') {
+				ignore = !ignore;
+			}
+			else if (buff[i] == ',' && now < 3) {
 				if (now == 0) {
 					word.importantFlag = (bool)stoi(oneCell);
 					if (word.importantFlag) { m_importantWordSum++; }
@@ -190,10 +194,14 @@ bool SpeakingSet::read() {
 		Sentence sentence;
 		int now = 0;
 		string oneCell = "";
+		bool ignore = false;
 		// 1文字ずつ見ていく
 		for (int i = 0; buff[i] != '\0'; i++) {
 			// CSVファイルなのでカンマで区切ってoneDataにpush_back
-			if (buff[i] == ',' && now < 4) {
+			if (buff[i] == '\"') {
+				ignore = !ignore;
+			}
+			else if (buff[i] == ',' && now < 4 && !ignore) {
 				if (now == 0) {
 					sentence.importantFlag = (bool)stoi(oneCell);
 					if (sentence.importantFlag) { m_importantWordSum++; }
