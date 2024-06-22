@@ -115,10 +115,12 @@ WordTestStudy::WordTestStudy(Teacher* teacher_p) {
 	m_teacher_p = teacher_p;
 	m_vocabulary = nullptr;
 	m_font = CreateFontToHandle(NULL, 40, 3);
+	m_miniFont = CreateFontToHandle(NULL, 30, 5);
 	m_answerButton = new Button("正解発表", 100, 750, 200, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
-	m_nextButton = new Button("次へ", 400, 750, 200, 100, BLUE, BLUE, m_font, BLACK);
-	m_importantButton = new Button("要注意", 700, 750, 200, 100, LIGHT_RED, RED, m_font, BLACK);
-	m_removeButton = new Button("削除", 1150, 750, 150, 100, GRAY, WHITE, m_font, BLACK);
+	m_nextButton = new Button("次へ", 320, 750, 200, 100, BLUE, BLUE, m_font, BLACK);
+	m_importantButton = new Button("要注意", 540, 750, 200, 100, LIGHT_RED, RED, m_font, BLACK);
+	m_prevButton = new Button("戻る", 760, 750, 150, 100, BLUE, BLUE, m_font, BLACK);
+	m_removeButton = new Button("長押しで削除", 1100, 750, 200, 100, GRAY, WHITE, m_miniFont, BLACK);
 	m_nextButton->changeFlag(false, BLUE);
 	m_stopWatch = new StopWatch();
 }
@@ -129,15 +131,26 @@ WordTestStudy::~WordTestStudy() {
 		delete m_vocabulary;
 	}
 	DeleteFontToHandle(m_font);
+	DeleteFontToHandle(m_miniFont);
 	delete m_answerButton;
 	delete m_nextButton;
 	delete m_importantButton;
+	delete m_prevButton;
 	delete m_removeButton;
 	delete m_stopWatch;
 }
 
 bool WordTestStudy::play(int handX, int handY, bool onlyImportant) {
+
 	m_stopWatch->count();
+
+	if (m_vocabulary->getIndex() == m_vocabulary->getPrevIndex()) {
+		m_prevButton->changeFlag(false, BLUE);
+	}
+	else {
+		m_prevButton->changeFlag(true, LIGHT_BLUE);
+	}
+
 	if (leftClick() == 1) {
 		if (m_answerButton->overlap(handX, handY)) {
 			m_nextButton->changeFlag(true, LIGHT_BLUE);
@@ -148,16 +161,24 @@ bool WordTestStudy::play(int handX, int handY, bool onlyImportant) {
 			m_nextButton->changeFlag(false, BLUE);
 			m_teacher_p->setText(1, 120, EMOTE::NORMAL, true);
 		}
+		if (m_prevButton->overlap(handX, handY)) {
+			m_vocabulary->goPrevWord();
+		}
 		if (m_importantButton->overlap(handX, handY)) {
 			m_vocabulary->setImportantFlag(!m_vocabulary->getWord().importantFlag);
 			if (m_vocabulary->getWord().importantFlag){ m_teacher_p->setText(3, 120, EMOTE::ANGRY, true); }
 			else{ m_teacher_p->setText(4, 120, EMOTE::SMILE, true); }
 		}
+	}
+
+	if (leftClick() == 60) {
 		if (m_removeButton->overlap(handX, handY)) {
 			m_vocabulary->removeWord();
 		}
 	}
+
 	return false;
+
 }
 
 void WordTestStudy::init(bool onlyImportant) {
@@ -198,6 +219,7 @@ void WordTestStudy::draw(int handX, int handY) const {
 	m_answerButton->draw(handX, handY);
 	m_importantButton->draw(handX, handY);
 	m_nextButton->draw(handX, handY);
+	m_prevButton->draw(handX, handY);
 	m_removeButton->draw(handX, handY);
 	ostringstream oss;
 	oss << "総単語数：" << m_vocabulary->getIndex() + 1 << "/" << m_vocabulary->getWordSum() << ", 要注意単語：" << m_vocabulary->getImportantWordSum() << "個";

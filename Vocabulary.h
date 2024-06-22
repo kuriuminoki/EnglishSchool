@@ -20,6 +20,8 @@ private:
 
 	int m_index;
 
+	int m_prevIndex;
+
 	int m_importantWordSum;
 
 public:
@@ -28,6 +30,7 @@ public:
 
 	// ƒQƒbƒ^
 	inline int getIndex() const { return m_index; }
+	inline int getPrevIndex() const { return m_prevIndex; }
 	inline int getWordSum() const { return (int)m_words.size(); }
 	inline int getImportantWordSum() const { return m_importantWordSum; }
 
@@ -43,6 +46,7 @@ public:
 	void shuffle();
 	Word getWord();
 	void goNextWord(bool onlyImportant);
+	void goPrevWord();
 	void init();
 	void setFirstImportantWord();
 
