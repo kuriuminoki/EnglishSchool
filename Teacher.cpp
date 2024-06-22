@@ -306,26 +306,22 @@ void Teacher::speaking(string sentence, int wait, EMOTE emote, bool animeRepeat)
 	m_text->setText(sentence);
 }
 
-// 
+// メニュー画面での雑談
 void Teacher::setRandomText() {
 	// セリフの総数
 	int sum = 5;
 	// レベルが上がるとセリフの数が増える
-	if (getLevel() < 10) {
-		sum = 5;
-	}
+	sum += getLevel();
 	int num = GetRand(sum - 1) + 1000;
 	setText(num, 120, EMOTE::NORMAL, true);
 }
 
-// 
+// 勉強中の発言
 void Teacher::setAdviceText() {
 	// セリフの総数
 	int sum = 5;
 	// レベルが上がるとセリフの数が増える
-	if (getLevel() < 10) {
-		sum = 5;
-	}
+	sum += getLevel();
 	int num = GetRand(sum - 1) + 2000;
 	setText(num, 120, EMOTE::NORMAL, true);
 }

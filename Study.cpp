@@ -62,7 +62,8 @@ bool Study::play(int handX, int handY) {
 		m_teacher_p->addExp(1);
 		if (leftClick() == 1 && m_finishButton->overlap(handX, handY)) {
 			m_state = STUDY_MODE::SELECT_MODE;
-			m_wordTestStudy->init(false);
+			m_wordTestStudy->end();
+			m_speakingPractiace->end();
 		}
 		switch (m_state) {
 		case WORD_TEST:
@@ -112,8 +113,7 @@ void Study::draw(int handX, int handY) const {
 */
 WordTestStudy::WordTestStudy(Teacher* teacher_p) {
 	m_teacher_p = teacher_p;
-	m_vocabulary = new Vocabulary("data/vocabulary/vocabulary.csv");
-	m_vocabulary->shuffle();
+	m_vocabulary = nullptr;
 	m_font = CreateFontToHandle(NULL, 40, 3);
 	m_answerButton = new Button("³‰ð”­•\", 100, 750, 200, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
 	m_nextButton = new Button("ŽŸ‚Ö", 400, 750, 200, 100, BLUE, BLUE, m_font, BLACK);
@@ -124,8 +124,10 @@ WordTestStudy::WordTestStudy(Teacher* teacher_p) {
 }
 
 WordTestStudy::~WordTestStudy() {
-	m_vocabulary->write();
-	delete m_vocabulary;
+	if (m_vocabulary != nullptr) {
+		m_vocabulary->write();
+		delete m_vocabulary;
+	}
 	DeleteFontToHandle(m_font);
 	delete m_answerButton;
 	delete m_nextButton;
@@ -160,13 +162,24 @@ bool WordTestStudy::play(int handX, int handY, bool onlyImportant) {
 
 void WordTestStudy::init(bool onlyImportant) {
 	m_nextButton->changeFlag(false, BLUE);
-	m_vocabulary->write();
+	if (m_vocabulary != nullptr) {
+		end();
+	}
+	m_vocabulary = new Vocabulary("data/vocabulary/vocabulary.csv");
 	m_vocabulary->init();
 	m_vocabulary->shuffle();
 	if (onlyImportant) {
 		m_vocabulary->setFirstImportantWord();
 	}
 	m_stopWatch->init();
+}
+
+void WordTestStudy::end() {
+	if (m_vocabulary != nullptr) {
+		m_vocabulary->write();
+		delete m_vocabulary;
+		m_vocabulary = nullptr;
+	}
 }
 
 void WordTestStudy::draw(int handX, int handY) const {
@@ -197,8 +210,7 @@ void WordTestStudy::draw(int handX, int handY) const {
 */
 SpeakingPractice::SpeakingPractice(Teacher* teacher_p) {
 	m_teacher_p = teacher_p;
-	m_speakingSets = new SpeakingSet("data/speaking/speaking.csv");
-	m_speakingSets->shuffle();
+	m_speakingSets = nullptr;
 	m_font = CreateFontToHandle(NULL, 40, 3);
 	m_sentenceFont = CreateFontToHandle(NULL, 30, 3);
 	m_repeatButton = new Button("‚à‚¤ˆê“x", 100, 750, 200, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
@@ -209,8 +221,10 @@ SpeakingPractice::SpeakingPractice(Teacher* teacher_p) {
 }
 
 SpeakingPractice::~SpeakingPractice() {
-	m_speakingSets->write();
-	delete m_speakingSets;
+	if (m_speakingSets != nullptr) {
+		m_speakingSets->write();
+		delete m_speakingSets;
+	}
 	DeleteFontToHandle(m_font);
 	DeleteFontToHandle(m_sentenceFont);
 	delete m_repeatButton;
@@ -250,13 +264,24 @@ bool SpeakingPractice::play(int handX, int handY, bool onlyImportant) {
 
 void SpeakingPractice::init(bool onlyImportant) {
 	m_nextButton->changeFlag(false, BLUE);
-	m_speakingSets->write();
+	if (m_speakingSets != nullptr) {
+		end();
+	}
+	m_speakingSets = new SpeakingSet("data/speaking/speaking.csv");
 	m_speakingSets->init();
 	m_speakingSets->shuffle();
 	if (onlyImportant) {
 		m_speakingSets->setFirstImportantSentence();
 	}
 	m_stopWatch->init();
+}
+
+void SpeakingPractice::end() {
+	if (m_speakingSets != nullptr) {
+		m_speakingSets->write();
+		delete m_speakingSets;
+		m_speakingSets = nullptr;
+	}
 }
 
 void SpeakingPractice::draw(int handX, int handY) const {

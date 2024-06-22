@@ -164,10 +164,11 @@ bool Lesson::play(int handX, int handY) {
 			break;
 	}
 	if (m_state != LESSON_NAME::SELECT_LESSON) {
+		// ƒŒƒbƒXƒ“I—¹
 		if (leftClick() == 1 && m_finishButton->overlap(handX, handY)) {
 			m_state = LESSON_NAME::SELECT_LESSON;
-			m_wordTestStudy->init(false);
-			m_speakingPractice->init(false);
+			m_wordTestStudy->end();
+			m_speakingPractice->end();
 		}
 		m_teacher_p->addExp(1);
 	}
@@ -253,7 +254,9 @@ void Lesson::draw(int handX, int handY) const {
 		break;
 	}
 	DrawStringToHandle(100, 250, lessonName.c_str(), WHITE, m_font);
-	if (m_state != LESSON_NAME::SELECT_LESSON && m_state != LESSON_NAME::WORD_TEST && m_state != LESSON_NAME::WORD_TEST_IMPORTANT) {
+	if (m_state != LESSON_NAME::SELECT_LESSON
+		&& m_state != LESSON_NAME::WORD_TEST && m_state != LESSON_NAME::WORD_TEST_IMPORTANT
+		&& m_state != LESSON_NAME::SPEAKING_STUDY) {
 		DrawStringToHandle(550, 550, getTimeString(m_stopWatch->getCnt()).c_str(), WHITE, m_font);
 	}
 }
