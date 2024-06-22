@@ -74,6 +74,7 @@ public:
 
 	bool play(int handX, int handY, bool onlyImportant);
 	void init(bool onlyImportant);
+	void end();
 	void draw(int handX, int handY) const;
 };
 
@@ -103,6 +104,7 @@ public:
 
 	bool play(int handX, int handY, bool onlyImportant);
 	void init(bool onlyImportant);
+	void end();
 	void draw(int handX, int handY) const;
 };
 

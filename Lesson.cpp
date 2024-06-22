@@ -164,10 +164,11 @@ bool Lesson::play(int handX, int handY) {
 			break;
 	}
 	if (m_state != LESSON_NAME::SELECT_LESSON) {
+		// ƒŒƒbƒXƒ“I—¹
 		if (leftClick() == 1 && m_finishButton->overlap(handX, handY)) {
 			m_state = LESSON_NAME::SELECT_LESSON;
-			m_wordTestStudy->init(false);
-			m_speakingPractice->init(false);
+			m_wordTestStudy->end();
+			m_speakingPractice->end();
 		}
 		m_teacher_p->addExp(1);
 	}
