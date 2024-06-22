@@ -58,10 +58,12 @@ private:
 	Vocabulary* m_vocabulary;
 
 	int m_font;
+	int m_miniFont;
 
 	Button* m_answerButton;
 	Button* m_importantButton;
 	Button* m_nextButton;
+	Button* m_prevButton;
 	Button* m_removeButton;
 
 	Teacher* m_teacher_p;

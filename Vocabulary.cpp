@@ -13,6 +13,7 @@ using namespace std;
 Vocabulary::Vocabulary(const char* path) {
 	m_path = path;
 	m_index = 0;
+	m_prevIndex = m_index;
 	m_importantWordSum = 0;
 	read();
 }
@@ -97,6 +98,7 @@ void Vocabulary::removeWord() {
 	m_words[m_index] = m_words.back();
 	m_words.pop_back();
 	if (m_index >= (int)m_words.size()) { m_index = (int)m_words.size() - 1; }
+	m_prevIndex = m_index;
 }
 
 // —v’ˆÓ
@@ -124,6 +126,7 @@ Word Vocabulary::getWord() {
 
 // Ÿ‚Ì’PŒê‚ÖˆÚ“®
 void Vocabulary::goNextWord(bool onlyImportant) {
+	m_prevIndex = m_index;
 	unsigned int i = 0;
 	while (i == 0 || (onlyImportant && !m_words[m_index].importantFlag && i < m_words.size())) {
 		if (++m_index == (int)m_words.size()) {
@@ -133,8 +136,13 @@ void Vocabulary::goNextWord(bool onlyImportant) {
 	}
 }
 
+void Vocabulary::goPrevWord() {
+	m_index = m_prevIndex;
+}
+
 void Vocabulary::init() {
 	m_index = 0;
+	m_prevIndex = m_index;
 	m_importantWordSum = 0;
 	read();
 }
