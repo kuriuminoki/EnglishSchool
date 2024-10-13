@@ -92,8 +92,18 @@ private:
 	int m_font;
 	int m_sentenceFont;
 
+	enum HIDE_STATE {
+		NO_HIDE,
+		EN_HIDE,
+		EN_HINT_HIDE
+	};
+
+	// 0:ëSï\é¶ 1:âpï∂âBÇµ 2:âpï∂Å{ÉqÉìÉgâBÇµ
+	HIDE_STATE m_hideState;
+
 	Button* m_repeatButton;
 	Button* m_importantButton;
+	Button* m_answerButton;
 	Button* m_nextButton;
 
 	Teacher* m_teacher_p;
