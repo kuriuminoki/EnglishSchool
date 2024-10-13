@@ -160,9 +160,11 @@ bool WordTestStudy::play(int handX, int handY, bool onlyImportant) {
 			m_vocabulary->goNextWord(onlyImportant);
 			m_nextButton->changeFlag(false, BLUE);
 			m_teacher_p->setText(1, 120, EMOTE::NORMAL, true);
+			m_vocabulary->wordCount();
 		}
 		if (m_prevButton->overlap(handX, handY)) {
 			m_vocabulary->goPrevWord();
+			m_vocabulary->wordCount();
 		}
 		if (m_importantButton->overlap(handX, handY)) {
 			m_vocabulary->setImportantFlag(!m_vocabulary->getWord().importantFlag);
@@ -192,6 +194,7 @@ void WordTestStudy::init(bool onlyImportant) {
 	if (onlyImportant) {
 		m_vocabulary->setFirstImportantWord();
 	}
+	m_vocabulary->wordCount();
 	m_stopWatch->init();
 }
 
@@ -221,6 +224,9 @@ void WordTestStudy::draw(int handX, int handY) const {
 	m_nextButton->draw(handX, handY);
 	m_prevButton->draw(handX, handY);
 	m_removeButton->draw(handX, handY);
+	ostringstream count;
+	count << "総出題回数：" << word.count;
+	DrawStringToHandle(120, 670, count.str().c_str(), WHITE, m_font);
 	ostringstream oss;
 	oss << "総単語数：" << m_vocabulary->getIndex() + 1 << "/" << m_vocabulary->getWordSum() << ", 要注意単語：" << m_vocabulary->getImportantWordSum() << "個";
 	DrawStringToHandle(100, 900, oss.str().c_str(), WHITE, m_font);

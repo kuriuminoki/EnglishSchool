@@ -48,7 +48,7 @@ bool Vocabulary::read() {
 			if (buff[i] == '\"') {
 				ignore = !ignore;
 			}
-			else if (buff[i] == ',' && now < 3 && !ignore) {
+			else if (buff[i] == ',' && now < 4 && !ignore) {
 				if (now == 0) {
 					word.importantFlag = (bool)stoi(oneCell);
 					if (word.importantFlag) { m_importantWordSum++; }
@@ -59,6 +59,9 @@ bool Vocabulary::read() {
 				else if (now == 2) {
 					word.japanese = oneCell;
 				}
+				else if (now == 3) {
+					word.example = oneCell;
+				}
 				now++;
 				oneCell = "";
 			}
@@ -67,7 +70,7 @@ bool Vocabulary::read() {
 			}
 		}
 		// 4つめは例文
-		word.example = oneCell;
+		word.count = stoi(oneCell);
 		m_words.push_back(word);
 	}
 
@@ -81,12 +84,13 @@ bool Vocabulary::read() {
 bool Vocabulary::write() const {
 	// ファイルポインタ
 	ofstream outputFile(m_path);
-	outputFile << "important,english,japanese,example" << endl;
+	outputFile << "important,english,japanese,example,count" << endl;
 	for (unsigned int i = 0; i < m_words.size(); i++) {
 		outputFile << (int)m_words[i].importantFlag << ",";
 		outputFile << '\"' << m_words[i].english << '\"' << ",";
 		outputFile << '\"' << m_words[i].japanese << '\"' << ",";
-		outputFile << '\"' << m_words[i].example << '\"' << endl;
+		outputFile << '\"' << m_words[i].example << '\"' << ",";
+		outputFile << '\"' << m_words[i].count << '\"' << endl;
 	}
 	return true;
 }
@@ -151,6 +155,10 @@ void Vocabulary::setFirstImportantWord() {
 	if (!m_words[m_index].importantFlag) {
 		goNextWord(true);
 	}
+}
+
+void Vocabulary::wordCount() {
+	m_words[m_index].count++;
 }
 
 

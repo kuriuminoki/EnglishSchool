@@ -9,6 +9,7 @@ struct Word {
 	std::string japanese;	// 単語の日本語訳
 	std::string example;	// 英語の例文
 	bool importantFlag;		// 要注意単語ならtrue
+	int count;				// 総テスト回数
 };
 
 class Vocabulary {
@@ -49,6 +50,7 @@ public:
 	void goPrevWord();
 	void init();
 	void setFirstImportantWord();
+	void wordCount();
 
 };
 
