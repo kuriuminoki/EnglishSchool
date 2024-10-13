@@ -231,13 +231,15 @@ void WordTestStudy::draw(int handX, int handY) const {
 * 単語テスト（自習）
 */
 SpeakingPractice::SpeakingPractice(Teacher* teacher_p) {
+	m_hideState = HIDE_STATE::NO_HIDE;
 	m_teacher_p = teacher_p;
 	m_speakingSets = nullptr;
 	m_font = CreateFontToHandle(NULL, 40, 3);
 	m_sentenceFont = CreateFontToHandle(NULL, 30, 3);
-	m_repeatButton = new Button("もう一度", 100, 750, 200, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
-	m_nextButton = new Button("次へ", 400, 750, 200, 100, BLUE, BLUE, m_font, BLACK);
-	m_importantButton = new Button("要注意", 700, 750, 200, 100, LIGHT_RED, RED, m_font, BLACK);
+	m_repeatButton = new Button("もう一度", 100, 750, 170, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
+	m_answerButton = new Button("英文隠し", 300, 750, 170, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
+	m_nextButton = new Button("次へ", 500, 750, 170, 100, BLUE, BLUE, m_font, BLACK);
+	m_importantButton = new Button("要注意", 700, 750, 170, 100, LIGHT_RED, RED, m_font, BLACK);
 	m_nextButton->changeFlag(false, BLUE);
 	m_stopWatch = new StopWatch();
 }
@@ -250,6 +252,7 @@ SpeakingPractice::~SpeakingPractice() {
 	DeleteFontToHandle(m_font);
 	DeleteFontToHandle(m_sentenceFont);
 	delete m_repeatButton;
+	delete m_answerButton;
 	delete m_nextButton;
 	delete m_importantButton;
 	delete m_stopWatch;
@@ -269,6 +272,19 @@ bool SpeakingPractice::play(int handX, int handY, bool onlyImportant) {
 			m_nextButton->changeFlag(false, BLUE);
 			m_speakingSets->setZeroNow();
 			m_teacher_p->speaking(m_speakingSets->getSentence().english, 120, EMOTE::NORMAL, true);
+		}
+		if (m_answerButton->overlap(handX, handY)) {
+			switch (m_hideState) {
+			case NO_HIDE:
+				m_hideState = EN_HIDE;
+				break;
+			case EN_HIDE:
+				m_hideState = EN_HINT_HIDE;
+				break;
+			default:
+				m_hideState = NO_HIDE;
+				break;
+			}
 		}
 		if (m_nextButton->overlap(handX, handY)) {
 			m_speakingSets->goNextSentence(onlyImportant);
@@ -312,10 +328,12 @@ void SpeakingPractice::draw(int handX, int handY) const {
 	if (sentence.importantFlag) {
 		DrawStringToHandle(100, 350, "要注意！！", RED, m_font);
 	}
-	string disp = sentence.english.substr(0, m_speakingSets->getNow());
-	DrawStringToHandle(100, 430, disp.c_str(), WHITE, m_sentenceFont);
+	if (m_hideState == NO_HIDE) {
+		string disp = sentence.english.substr(0, m_speakingSets->getNow());
+		DrawStringToHandle(100, 430, disp.c_str(), WHITE, m_sentenceFont);
+	}
 	DrawStringToHandle(100, 500, sentence.japanese.c_str(), LIGHT_BLUE, m_sentenceFont);
-	if (sentence.appendix != "") {
+	if (m_hideState != EN_HINT_HIDE && sentence.appendix != "") {
 		DrawStringToHandle(120, 600, ("ポイント：" + sentence.appendix).c_str(), WHITE, m_sentenceFont);
 	}
 	ostringstream count;
@@ -323,6 +341,7 @@ void SpeakingPractice::draw(int handX, int handY) const {
 	DrawStringToHandle(950, 800, count.str().c_str(), WHITE, m_font);
 	m_repeatButton->draw(handX, handY);
 	m_importantButton->draw(handX, handY);
+	m_answerButton->draw(handX, handY);
 	m_nextButton->draw(handX, handY);
 	ostringstream oss;
 	oss << "総文章数：" << m_speakingSets->getIndex() + 1 << "/" << m_speakingSets->getSentenceSum() << ", 要注意文章：" << m_speakingSets->getImportantSentenceSum() << "個";
