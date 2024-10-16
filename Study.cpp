@@ -7,9 +7,36 @@
 #include "Vocabulary.h"
 #include "DxLib.h"
 
+#include <algorithm>
 #include <sstream>
 
 using namespace std;
+
+
+DynamicFont::DynamicFont(int size, int thick) {
+	createFont(size, thick);
+}
+
+DynamicFont::~DynamicFont() {
+	DeleteFontToHandle(m_font);
+}
+
+void DynamicFont::changeFont(int mouseWheel) {
+	if (mouseWheel == 0) { return; }
+	DeleteFontToHandle(m_font);
+	if (mouseWheel > 0) {
+		createFont(min(m_size + 1, MAX_SIZE), m_thick);
+	}
+	else {
+		createFont(max(m_size - 1, MIN_SIZE), m_thick);
+	}
+}
+
+void DynamicFont::createFont(int size, int thick) {
+	m_size = size;
+	m_thick = thick;
+	m_font = CreateFontToHandle(NULL, m_size, m_thick);
+}
 
 
 /*
@@ -36,7 +63,7 @@ Study::~Study() {
 	delete m_onlyImportantTestButton;
 }
 
-bool Study::play(int handX, int handY) {
+bool Study::play(int handX, int handY, int mouseWheel) {
 
 	if (m_state == STUDY_MODE::SELECT_MODE) {
 		if (leftClick() == 1) {
@@ -67,16 +94,16 @@ bool Study::play(int handX, int handY) {
 		}
 		switch (m_state) {
 		case WORD_TEST:
-			m_wordTestStudy->play(handX, handY, false);
+			m_wordTestStudy->play(handX, handY, mouseWheel, false);
 			break;
 		case WORD_TEST_IMPORTANT:
-			m_wordTestStudy->play(handX, handY, true);
+			m_wordTestStudy->play(handX, handY, mouseWheel, true);
 			break;
 		case SPEAKING_PRACTICE:
-			m_speakingPractiace->play(handX, handY, false);
+			m_speakingPractiace->play(handX, handY, mouseWheel, false);
 			break;
 		case SPEAKING_PRACTICE_IMPORTANT:
-			m_speakingPractiace->play(handX, handY, true);
+			m_speakingPractiace->play(handX, handY, mouseWheel, true);
 			break;
 		}
 	}
@@ -116,6 +143,7 @@ WordTestStudy::WordTestStudy(Teacher* teacher_p) {
 	m_vocabulary = nullptr;
 	m_font = CreateFontToHandle(NULL, 40, 3);
 	m_miniFont = CreateFontToHandle(NULL, 30, 5);
+	m_dynamicFont = new DynamicFont(40, 3);
 	m_answerButton = new Button("正解発表", 100, 750, 200, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
 	m_nextButton = new Button("次へ", 320, 750, 200, 100, BLUE, BLUE, m_font, BLACK);
 	m_importantButton = new Button("要注意", 540, 750, 200, 100, LIGHT_RED, RED, m_font, BLACK);
@@ -140,7 +168,7 @@ WordTestStudy::~WordTestStudy() {
 	delete m_stopWatch;
 }
 
-bool WordTestStudy::play(int handX, int handY, bool onlyImportant) {
+bool WordTestStudy::play(int handX, int handY, int mouseWheel, bool onlyImportant) {
 
 	m_stopWatch->count();
 
@@ -150,7 +178,7 @@ bool WordTestStudy::play(int handX, int handY, bool onlyImportant) {
 	else {
 		m_prevButton->changeFlag(true, LIGHT_BLUE);
 	}
-
+	m_dynamicFont->changeFont(mouseWheel);
 	if (leftClick() == 1) {
 		if (m_answerButton->overlap(handX, handY)) {
 			m_nextButton->changeFlag(true, LIGHT_BLUE);
@@ -217,7 +245,7 @@ void WordTestStudy::draw(int handX, int handY) const {
 		DrawStringToHandle(100, 500, word.japanese.c_str(), LIGHT_BLUE, m_font);
 	}
 	if (word.example != "") {
-		DrawStringToHandle(120, 600, ("usage: " + word.example).c_str(), WHITE, m_font);
+		DrawStringToHandle(120, 600, ("usage: " + word.example).c_str(), WHITE, m_dynamicFont->getFont());
 	}
 	m_answerButton->draw(handX, handY);
 	m_importantButton->draw(handX, handY);
@@ -242,6 +270,7 @@ SpeakingPractice::SpeakingPractice(Teacher* teacher_p) {
 	m_speakingSets = nullptr;
 	m_font = CreateFontToHandle(NULL, 40, 3);
 	m_sentenceFont = CreateFontToHandle(NULL, 30, 3);
+	m_dynamicFont = new DynamicFont(30, 3);
 	m_repeatButton = new Button("もう一度", 100, 750, 170, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
 	m_answerButton = new Button("英文隠し", 300, 750, 170, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
 	m_nextButton = new Button("次へ", 500, 750, 170, 100, BLUE, BLUE, m_font, BLACK);
@@ -257,6 +286,7 @@ SpeakingPractice::~SpeakingPractice() {
 	}
 	DeleteFontToHandle(m_font);
 	DeleteFontToHandle(m_sentenceFont);
+	delete m_dynamicFont;
 	delete m_repeatButton;
 	delete m_answerButton;
 	delete m_nextButton;
@@ -264,7 +294,7 @@ SpeakingPractice::~SpeakingPractice() {
 	delete m_stopWatch;
 }
 
-bool SpeakingPractice::play(int handX, int handY, bool onlyImportant) {
+bool SpeakingPractice::play(int handX, int handY, int mouseWheel, bool onlyImportant) {
 	if (m_stopWatch->getCnt() == 0) {
 		m_teacher_p->speaking(m_speakingSets->getSentence().english, 120, EMOTE::NORMAL, true);
 	}
@@ -272,6 +302,7 @@ bool SpeakingPractice::play(int handX, int handY, bool onlyImportant) {
 	if (m_speakingSets->speak()) {
 		m_nextButton->changeFlag(true, LIGHT_BLUE);
 	}
+	m_dynamicFont->changeFont(mouseWheel);
 	if (leftClick() == 1) {
 		if (m_repeatButton->overlap(handX, handY)) {
 			// もう一度
@@ -336,11 +367,11 @@ void SpeakingPractice::draw(int handX, int handY) const {
 	}
 	if (m_hideState == NO_HIDE) {
 		string disp = sentence.english.substr(0, m_speakingSets->getNow());
-		DrawStringToHandle(100, 430, disp.c_str(), WHITE, m_sentenceFont);
+		DrawStringToHandle(100, 430, disp.c_str(), WHITE, m_dynamicFont->getFont());
 	}
-	DrawStringToHandle(100, 500, sentence.japanese.c_str(), LIGHT_BLUE, m_sentenceFont);
+	DrawStringToHandle(100, 500, sentence.japanese.c_str(), LIGHT_BLUE, m_dynamicFont->getFont());
 	if (m_hideState != EN_HINT_HIDE && sentence.appendix != "") {
-		DrawStringToHandle(120, 600, ("ポイント：" + sentence.appendix).c_str(), WHITE, m_sentenceFont);
+		DrawStringToHandle(120, 600, ("ポイント：" + sentence.appendix).c_str(), WHITE, m_dynamicFont->getFont());
 	}
 	ostringstream count;
 	count << "音読総数：" << sentence.count;

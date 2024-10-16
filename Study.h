@@ -11,6 +11,43 @@ class Teacher;
 class StopWatch;
 
 
+/*
+* マウスホイールでフォントサイズを調整するクラス
+*/
+class DynamicFont {
+private:
+
+	const int MAX_SIZE = 100;
+	const int MIN_SIZE = 1;
+
+	const int MAX_THICK = 100;
+	const int MIN_THICK = 1;
+
+	// フォントサイズ
+	int m_size;
+
+	// フォントの太さ
+	int m_thick;
+
+	// フォント
+	int m_font;
+
+public:
+
+	DynamicFont(int size, int thick);
+
+	~DynamicFont();
+
+	void changeFont(int mouseWheel);
+
+	int getFont() const { return m_font; }
+
+private:
+	void createFont(int size, int thick);
+
+};
+
+
 class Study {
 private:
 
@@ -43,7 +80,7 @@ public:
 	~Study();
 
 	// 終了時にtrueを返す
-	bool play(int handX, int handY);
+	bool play(int handX, int handY, int mouseWheel);
 
 	void draw(int handX, int handY) const;
 };
@@ -59,6 +96,7 @@ private:
 
 	int m_font;
 	int m_miniFont;
+	DynamicFont* m_dynamicFont;
 
 	Button* m_answerButton;
 	Button* m_importantButton;
@@ -74,7 +112,7 @@ public:
 	WordTestStudy(Teacher* teacher_p);
 	~WordTestStudy();
 
-	bool play(int handX, int handY, bool onlyImportant);
+	bool play(int handX, int handY, int mouseWheel, bool onlyImportant);
 	void init(bool onlyImportant);
 	void end();
 	void draw(int handX, int handY) const;
@@ -91,6 +129,7 @@ private:
 
 	int m_font;
 	int m_sentenceFont;
+	DynamicFont* m_dynamicFont;
 
 	enum HIDE_STATE {
 		NO_HIDE,
@@ -114,7 +153,7 @@ public:
 	SpeakingPractice(Teacher* teacher_p);
 	~SpeakingPractice();
 
-	bool play(int handX, int handY, bool onlyImportant);
+	bool play(int handX, int handY, int mouseWheel, bool onlyImportant);
 	void init(bool onlyImportant);
 	void end();
 	void draw(int handX, int handY) const;
