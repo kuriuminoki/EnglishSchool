@@ -61,7 +61,7 @@ Lesson::~Lesson() {
 	delete m_eveningReviewButton;
 }
 
-bool Lesson::play(int handX, int handY) {
+bool Lesson::play(int handX, int handY, int mouseWheel) {
 	m_stopWatch->count();
 	switch (m_state) {
 		case SELECT_LESSON:			// レッスン選択画面
@@ -112,12 +112,12 @@ bool Lesson::play(int handX, int handY) {
 			}
 			break;
 		case WORD_TEST:				// 単語テスト
-			m_wordTestStudy->play(handX, handY, false);
+			m_wordTestStudy->play(handX, handY, mouseWheel, false);
 			m_stats_p->setWordTestCnt(m_stats_p->getWordTestCnt() + 1);
 			m_dailyStats_p->setWordTestCnt(m_dailyStats_p->getWordTestCnt() + 1);
 			break;
 		case WORD_TEST_IMPORTANT:	// 重要語テスト
-			m_wordTestStudy->play(handX, handY, true);
+			m_wordTestStudy->play(handX, handY, mouseWheel, true);
 			m_stats_p->setOnlyImportantTestCnt(m_stats_p->getOnlyImportantTestCnt() + 1);
 			m_dailyStats_p->setOnlyImportantTestCnt(m_dailyStats_p->getOnlyImportantTestCnt() + 1);
 			break;
@@ -154,7 +154,7 @@ bool Lesson::play(int handX, int handY) {
 			m_dailyStats_p->setRadioCnt(m_dailyStats_p->getRadioCnt() + 1);
 			break;
 		case SPEAKING_STUDY:		// 音読練習
-			m_speakingPractice->play(handX, handY, false);
+			m_speakingPractice->play(handX, handY, mouseWheel, false);
 			m_stats_p->setSpeakingStudyCnt(m_stats_p->getSpeakingStudyCnt() + 1);
 			m_dailyStats_p->setSpeakingStudyCnt(m_dailyStats_p->getSpeakingStudyCnt() + 1);
 			break;

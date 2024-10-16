@@ -72,6 +72,7 @@ void Game::play() {
 	m_stopWatch->count();
 
 	GetMousePoint(&m_handX, &m_handY);
+	int mouseWheel = GetMouseWheelRotVol();
 
 	m_teacher->play();
 
@@ -94,12 +95,12 @@ void Game::play() {
 		}
 		break;
 	case LESSON_MODE:
-		if (m_lesson->play(m_handX, m_handY)) {
+		if (m_lesson->play(m_handX, m_handY, mouseWheel)) {
 			m_state = GAME_MODE::SELECT_MODE;
 		}
 		break;
 	case STUDY_MODE:
-		if (m_study->play(m_handX, m_handY)) {
+		if (m_study->play(m_handX, m_handY, mouseWheel)) {
 			m_state = GAME_MODE::SELECT_MODE;
 		}
 		break;

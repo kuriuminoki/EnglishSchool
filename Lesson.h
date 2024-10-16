@@ -60,7 +60,7 @@ public:
 	~Lesson();
 
 	// I—¹‚Étrue‚ğ•Ô‚·
-	bool play(int handX, int handY);
+	bool play(int handX, int handY, int mouseWheel);
 
 	void draw(int handX, int handY) const;
 };
