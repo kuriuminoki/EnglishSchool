@@ -80,7 +80,7 @@ bool Study::play(int handX, int handY, int mouseWheel) {
 				m_speakingPractiace->init(false);
 			}
 			else if (m_onlyImportantspeakingPracticeButton->overlap(handX, handY)) {
-				m_state = STUDY_MODE::SPEAKING_PRACTICE;
+				m_state = STUDY_MODE::SPEAKING_PRACTICE_IMPORTANT;
 				m_speakingPractiace->init(true);
 			}
 		}

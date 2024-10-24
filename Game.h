@@ -91,10 +91,10 @@ private:
 	long long int m_breakTimeCnt;
 	long long int m_freeStudyCnt;
 	long long int m_longTextStudyCnt;
-	long long int m_morningReviewCnt;
+	long long int m_reviewCnt;
 	long long int m_radioCnt;
 	long long int m_speakingStudyCnt;
-	long long int m_eveningReviewCnt;
+	long long int m_onlyImportantSpeakingStudyCnt;
 
 public:
 
@@ -123,14 +123,14 @@ public:
 	inline void setFreeStudyCnt(long long int cnt) { m_freeStudyCnt = cnt; }
 	inline long long int getLongTextStudyCnt() const { return m_longTextStudyCnt; }
 	inline void setLongTextStudyCnt(long long int cnt) { m_longTextStudyCnt = cnt; }
-	inline long long int getMorningReviewCnt() const { return m_morningReviewCnt; }
-	inline void setMorningReviewCnt(long long int cnt) { m_morningReviewCnt = cnt; }
+	inline long long int getReviewCnt() const { return m_reviewCnt; }
+	inline void setReviewCnt(long long int cnt) { m_reviewCnt = cnt; }
 	inline long long int getRadioCnt() const { return m_radioCnt; }
 	inline void setRadioCnt(long long int cnt) { m_radioCnt = cnt; }
 	inline long long int getSpeakingStudyCnt() const { return m_speakingStudyCnt; }
 	inline void setSpeakingStudyCnt(long long int cnt) { m_speakingStudyCnt = cnt; }
-	inline long long int getEveningReviewCnt() const { return m_eveningReviewCnt; }
-	inline void setEveningReviewCnt(long long int cnt) { m_eveningReviewCnt = cnt; }
+	inline long long int getOnlyImportantSpeakingStudyCnt() const { return m_onlyImportantSpeakingStudyCnt; }
+	inline void setOnlyImportantSpeakingStudyCnt(long long int cnt) { m_onlyImportantSpeakingStudyCnt = cnt; }
 };
 
 
