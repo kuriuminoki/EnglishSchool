@@ -35,10 +35,10 @@ Lesson::Lesson(int font, Teacher* teacher_p, Stats* stats_p, Stats* dailyStats_p
 	m_breakTimeButton = new Button("‹xŒe", 900, 450, 350, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
 	m_freeStudyButton = new Button("Ž©K", 100, 600, 350, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
 	m_longTextStudyButton = new Button("’·•¶–â‘è", 500, 600, 350, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
-	m_morningReviewButton = new Button("’©‚ÌU‚è•Ô‚è", 900, 600, 350, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
+	m_morningReviewButton = new Button("U‚è•Ô‚è", 900, 600, 350, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
 	m_radioButton = new Button("ƒ‰ƒWƒI‰p‰ï˜b", 100, 750, 350, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
 	m_speakingStudyButton = new Button("‰¹“Ç—ûK", 500, 750, 350, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
-	m_eveningReviewButton = new Button("–é‚ÌU‚è•Ô‚è", 900, 750, 350, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
+	m_onlyImportantSpeakingStudyButton = new Button("d—v•¶‚Ì‚Ý‰¹“Ç", 900, 750, 350, 100, LIGHT_BLUE, BLUE, m_font, BLACK);
 
 }
 
@@ -58,7 +58,7 @@ Lesson::~Lesson() {
 	delete m_morningReviewButton;
 	delete m_radioButton;
 	delete m_speakingStudyButton;
-	delete m_eveningReviewButton;
+	delete m_onlyImportantSpeakingStudyButton;
 }
 
 bool Lesson::play(int handX, int handY, int mouseWheel) {
@@ -93,7 +93,7 @@ bool Lesson::play(int handX, int handY, int mouseWheel) {
 					m_state = LESSON_NAME::LONG_TEXT_STUDY;
 				}
 				else if (m_morningReviewButton->overlap(handX, handY)) {
-					m_state = LESSON_NAME::MORNING_REVIEW;
+					m_state = LESSON_NAME::REVIEW;
 				}
 				else if (m_radioButton->overlap(handX, handY)) {
 					m_state = LESSON_NAME::RADIO;
@@ -102,8 +102,9 @@ bool Lesson::play(int handX, int handY, int mouseWheel) {
 					m_speakingPractice->init(false);
 					m_state = LESSON_NAME::SPEAKING_STUDY;
 				}
-				else if (m_eveningReviewButton->overlap(handX, handY)) {
-					m_state = LESSON_NAME::EVENING_REVIEW;
+				else if (m_onlyImportantSpeakingStudyButton->overlap(handX, handY)) {
+					m_speakingPractice->init(true);
+					m_state = LESSON_NAME::SPEAKING_STUDY_IMPORTANT;
 				}
 			}
 			// ƒŒƒbƒXƒ“ŠJŽn
@@ -145,9 +146,9 @@ bool Lesson::play(int handX, int handY, int mouseWheel) {
 			m_stats_p->setLongTextStudyCnt(m_stats_p->getLongTextStudyCnt() + 1);
 			m_dailyStats_p->setLongTextStudyCnt(m_dailyStats_p->getLongTextStudyCnt() + 1);
 			break;
-		case MORNING_REVIEW:		// ’©‚ÌU‚è•Ô‚è
-			m_stats_p->setMorningReviewCnt(m_stats_p->getMorningReviewCnt() + 1);
-			m_dailyStats_p->setMorningReviewCnt(m_dailyStats_p->getMorningReviewCnt() + 1);
+		case REVIEW:		// U‚è•Ô‚è
+			m_stats_p->setReviewCnt(m_stats_p->getReviewCnt() + 1);
+			m_dailyStats_p->setReviewCnt(m_dailyStats_p->getReviewCnt() + 1);
 			break;
 		case RADIO:					// ƒ‰ƒWƒI‰p‰ï˜b
 			m_stats_p->setRadioCnt(m_stats_p->getRadioCnt() + 1);
@@ -158,9 +159,10 @@ bool Lesson::play(int handX, int handY, int mouseWheel) {
 			m_stats_p->setSpeakingStudyCnt(m_stats_p->getSpeakingStudyCnt() + 1);
 			m_dailyStats_p->setSpeakingStudyCnt(m_dailyStats_p->getSpeakingStudyCnt() + 1);
 			break;
-		case EVENING_REVIEW:		// –é‚ÌU‚è•Ô‚è
-			m_stats_p->setEveningReviewCnt(m_stats_p->getEveningReviewCnt() + 1);
-			m_dailyStats_p->setEveningReviewCnt(m_dailyStats_p->getEveningReviewCnt() + 1);
+		case SPEAKING_STUDY_IMPORTANT:		// d—v•¶‰¹“Ç
+			m_speakingPractice->play(handX, handY, mouseWheel, true);
+			m_stats_p->setOnlyImportantSpeakingStudyCnt(m_stats_p->getOnlyImportantSpeakingStudyCnt() + 1);
+			m_dailyStats_p->setOnlyImportantSpeakingStudyCnt(m_dailyStats_p->getOnlyImportantSpeakingStudyCnt() + 1);
 			break;
 	}
 	if (m_state != LESSON_NAME::SELECT_LESSON) {
@@ -196,10 +198,10 @@ void Lesson::draw(int handX, int handY) const {
 		DrawFormatString(900, 430, WHITE, (dateName + getTimeString(stats->getBreakTimeCnt())).c_str());
 		DrawFormatString(100, 580, WHITE, (dateName + getTimeString(stats->getFreeStudyCnt())).c_str());
 		DrawFormatString(500, 580, WHITE, (dateName + getTimeString(stats->getLongTextStudyCnt())).c_str());
-		DrawFormatString(900, 580, WHITE, (dateName + getTimeString(stats->getMorningReviewCnt())).c_str());
+		DrawFormatString(900, 580, WHITE, (dateName + getTimeString(stats->getReviewCnt())).c_str());
 		DrawFormatString(100, 730, WHITE, (dateName + getTimeString(stats->getRadioCnt())).c_str());
 		DrawFormatString(500, 730, WHITE, (dateName + getTimeString(stats->getSpeakingStudyCnt())).c_str());
-		DrawFormatString(900, 730, WHITE, (dateName + getTimeString(stats->getEveningReviewCnt())).c_str());
+		DrawFormatString(900, 730, WHITE, (dateName + getTimeString(stats->getOnlyImportantSpeakingStudyCnt())).c_str());
 		m_wordTestButton->draw(handX, handY);
 		m_onlyImportantTestButton->draw(handX, handY);
 		m_diaryButton->draw(handX, handY);
@@ -211,7 +213,7 @@ void Lesson::draw(int handX, int handY) const {
 		m_morningReviewButton->draw(handX, handY);
 		m_radioButton->draw(handX, handY);
 		m_speakingStudyButton->draw(handX, handY);
-		m_eveningReviewButton->draw(handX, handY);
+		m_onlyImportantSpeakingStudyButton->draw(handX, handY);
 		break;
 	case WORD_TEST:				// ’PŒêƒeƒXƒg
 		lessonName = "‘S’PŒêƒeƒXƒg‚ÌŽžŠÔ 15m";
@@ -239,24 +241,26 @@ void Lesson::draw(int handX, int handY) const {
 	case LONG_TEXT_STUDY:		// ’·•¶–â‘è
 		lessonName = "’·•¶–â‘è‚Å•×‹­‚·‚éŽžŠÔ 15m";
 		break;
-	case MORNING_REVIEW:		// ’©‚ÌU‚è•Ô‚è
-		lessonName = "’©‚ÌU‚è•Ô‚è 10m";
+	case REVIEW:		// U‚è•Ô‚è
+		lessonName = "U‚è•Ô‚è ’©10m –é20m";
 		break;
 	case RADIO:					// ƒ‰ƒWƒI‰p‰ï˜b
 		lessonName = "ƒ‰ƒWƒI‰p‰ï˜b‚ÌŽžŠÔ 20m";
 		break;
 	case SPEAKING_STUDY:		// ‰¹“Ç—ûK
 		m_speakingPractice->draw(handX, handY);
-		lessonName = "‰¹“Ç—ûK‹­‚ÌŽžŠÔ 20m";
+		lessonName = "‰¹“Ç—ûK‚ÌŽžŠÔ 20m";
 		break;
-	case EVENING_REVIEW:		// –é‚ÌU‚è•Ô‚è
-		lessonName = "–é‚ÌU‚è•Ô‚è‚ÌŽžŠÔ 20m";
+	case SPEAKING_STUDY_IMPORTANT:		// d—v•¶‰¹“Ç
+		m_speakingPractice->draw(handX, handY);
+		lessonName = "d—v•¶‰¹“Ç‚ÌŽžŠÔ 20m";
 		break;
 	}
 	DrawStringToHandle(100, 250, lessonName.c_str(), WHITE, m_font);
 	if (m_state != LESSON_NAME::SELECT_LESSON
 		&& m_state != LESSON_NAME::WORD_TEST && m_state != LESSON_NAME::WORD_TEST_IMPORTANT
-		&& m_state != LESSON_NAME::SPEAKING_STUDY) {
+		&& m_state != LESSON_NAME::SPEAKING_STUDY
+		&& m_state != LESSON_NAME::SPEAKING_STUDY_IMPORTANT) {
 		DrawStringToHandle(550, 550, getTimeString(m_stopWatch->getCnt()).c_str(), WHITE, m_font);
 	}
 }

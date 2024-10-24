@@ -159,10 +159,10 @@ bool Stats::read() {
 	fread(&m_breakTimeCnt, sizeof(m_breakTimeCnt), 1, intFp);
 	fread(&m_freeStudyCnt, sizeof(m_freeStudyCnt), 1, intFp);
 	fread(&m_longTextStudyCnt, sizeof(m_longTextStudyCnt), 1, intFp);
-	fread(&m_morningReviewCnt, sizeof(m_morningReviewCnt), 1, intFp);
+	fread(&m_reviewCnt, sizeof(m_reviewCnt), 1, intFp);
 	fread(&m_radioCnt, sizeof(m_radioCnt), 1, intFp);
 	fread(&m_speakingStudyCnt, sizeof(m_speakingStudyCnt), 1, intFp);
-	fread(&m_eveningReviewCnt, sizeof(m_eveningReviewCnt), 1, intFp);
+	fread(&m_onlyImportantSpeakingStudyCnt, sizeof(m_onlyImportantSpeakingStudyCnt), 1, intFp);
 	fclose(intFp);
 	return true;
 }
@@ -181,10 +181,10 @@ bool Stats::write() {
 	fwrite(&m_breakTimeCnt, sizeof(m_breakTimeCnt), 1, intFp);
 	fwrite(&m_freeStudyCnt, sizeof(m_freeStudyCnt), 1, intFp);
 	fwrite(&m_longTextStudyCnt, sizeof(m_longTextStudyCnt), 1, intFp);
-	fwrite(&m_morningReviewCnt, sizeof(m_morningReviewCnt), 1, intFp);
+	fwrite(&m_reviewCnt, sizeof(m_reviewCnt), 1, intFp);
 	fwrite(&m_radioCnt, sizeof(m_radioCnt), 1, intFp);
 	fwrite(&m_speakingStudyCnt, sizeof(m_speakingStudyCnt), 1, intFp);
-	fwrite(&m_eveningReviewCnt, sizeof(m_eveningReviewCnt), 1, intFp);
+	fwrite(&m_onlyImportantSpeakingStudyCnt, sizeof(m_onlyImportantSpeakingStudyCnt), 1, intFp);
 	fclose(intFp);
 	return true;
 }

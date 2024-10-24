@@ -9,19 +9,19 @@ class WordTestStudy;
 class SpeakingPractice;
 
 enum LESSON_NAME {
-	SELECT_LESSON,			// レッスン選択画面
-	WORD_TEST,				// 単語テスト
-	WORD_TEST_IMPORTANT,	// 重要語テスト
-	DIARY,					// 日記
-	RADIO_REVIEW,			// ラジオ英会話復習
-	GRAMMAR_STUDY,			// 文法
-	BREAK_TIME,				// 休憩
-	FREE_STUDY,				// 自習
-	LONG_TEXT_STUDY,		// 長文問題
-	MORNING_REVIEW,			// 朝の振り返り
-	RADIO,					// ラジオ英会話
-	SPEAKING_STUDY,			// 音読練習
-	EVENING_REVIEW			// 夜の振り返り
+	SELECT_LESSON,				// レッスン選択画面
+	WORD_TEST,					// 単語テスト
+	WORD_TEST_IMPORTANT,		// 重要語テスト
+	DIARY,						// 日記
+	RADIO_REVIEW,				// ラジオ英会話復習
+	GRAMMAR_STUDY,				// 文法
+	BREAK_TIME,					// 休憩
+	FREE_STUDY,					// 自習
+	LONG_TEXT_STUDY,			// 長文問題
+	REVIEW,						// 振り返り
+	RADIO,						// ラジオ英会話
+	SPEAKING_STUDY,				// 音読練習
+	SPEAKING_STUDY_IMPORTANT,	// 重要文音読
 };
 
 class Lesson {
@@ -46,7 +46,7 @@ private:
 	Button* m_morningReviewButton;
 	Button* m_radioButton;
 	Button* m_speakingStudyButton;
-	Button* m_eveningReviewButton;
+	Button* m_onlyImportantSpeakingStudyButton;
 
 	int m_font;
 
